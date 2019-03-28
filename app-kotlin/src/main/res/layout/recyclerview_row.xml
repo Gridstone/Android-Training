@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TextView
-    android:layout_width="wrap_content"
+<FrameLayout
     android:layout_height="wrap_content"
-    android:textSize="20sp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/imageListImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pizza"/>
+
+    <TextView
+        android:id="@+id/imageListTitle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:layout_gravity="bottom" />
+
+</FrameLayout>
+
+
 
