@@ -17,9 +17,14 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
 
     viewManager = LinearLayoutManager(this)
-    viewAdapter = MyRecyclerViewAdapter(
-            arrayOf("1", "2", "3","1", "2", "3","1", "2", "3","1", "2", "3","1", "2", "3","1", "2", "3","1", "2", "3","1", "2", "3","1", "2", "3")
-    )
+
+    val values : MutableList<String> = ArrayList()
+
+    for (i in 0..99) {
+      values.add(i.toString())
+    }
+
+    viewAdapter = MyRecyclerViewAdapter(values.toTypedArray())
 
     recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
       // use this setting to improve performance if you know that changes
