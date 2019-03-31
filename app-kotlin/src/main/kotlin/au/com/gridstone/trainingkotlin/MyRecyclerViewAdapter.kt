@@ -23,12 +23,12 @@ class MyRecyclerViewAdapter(private val myDataset: Array<String>) :
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MyRecyclerViewAdapter.MyViewHolder {
         // create a new view
-        val textView = LayoutInflater.from(parent.context)
+        val row = LayoutInflater.from(parent.context)
                 .inflate(R.layout.recyclerview_row, parent, false) as FrameLayout
         // set the view's size, margins, paddings and layout parameters
-        textView.setPadding(0,0,0,4)
+        row.setPadding(0,0,0,4)
 
-        return MyViewHolder(textView)
+        return MyViewHolder(row)
     }
 
     // Replace the contents of a view (invoked by the layout manager)

@@ -14,9 +14,10 @@
     <TextView
         android:id="@+id/imageListTitle"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:textSize="20sp"
-        android:padding="10dp"
+        android:layout_height="48dp"
+        android:textSize="18sp"
+        android:paddingLeft="26dp"
+        android:paddingRight="26dp"
         android:background="@android:color/black"
         android:textColor="@android:color/white"
         android:layout_gravity="bottom" />
