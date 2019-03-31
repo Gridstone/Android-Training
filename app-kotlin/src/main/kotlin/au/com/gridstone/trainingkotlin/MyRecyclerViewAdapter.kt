@@ -26,7 +26,7 @@ class MyRecyclerViewAdapter(private val myDataset: Array<String>) :
         val row = LayoutInflater.from(parent.context)
                 .inflate(R.layout.recyclerview_row, parent, false) as FrameLayout
         // set the view's size, margins, paddings and layout parameters
-        row.setPadding(0,0,0,4)
+        row.setPadding(0,0,0,1)
 
         return MyViewHolder(row)
     }
@@ -35,12 +35,10 @@ class MyRecyclerViewAdapter(private val myDataset: Array<String>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        var textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
+        val textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
         textView.text = myDataset[position]
         textView.background.alpha = 200
         textView.setGravity(Gravity.CENTER_VERTICAL);
-        var imageView = holder.view.findViewById<ImageView>(R.id.imageListImageView)
-        imageView.adjustViewBounds = true
     }
 
     // Return the size of your dataset (invoked by the layout manager)
