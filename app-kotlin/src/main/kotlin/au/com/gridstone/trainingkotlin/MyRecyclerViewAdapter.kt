@@ -1,16 +1,23 @@
 package au.com.gridstone.trainingkotlin
 
+import android.content.Context
+import android.content.Intent
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class MyRecyclerViewAdapter(private val myDataset: Array<String>) :
+class MyRecyclerViewAdapter(private val myDataset: Array<String>, context: Context) :
         RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
+
+    private var mContext: Context
+
+    init {
+        mContext = context
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -39,6 +46,11 @@ class MyRecyclerViewAdapter(private val myDataset: Array<String>) :
         textView.text = myDataset[position]
         textView.background.alpha = 200
         textView.setGravity(Gravity.CENTER_VERTICAL);
+
+        holder.view.setOnClickListener {
+            val intent = Intent(mContext, ImageDetailsActivity::class.java)
+            mContext.startActivity(intent)
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
       values.add(i.toString())
     }
 
-    viewAdapter = MyRecyclerViewAdapter(values.toTypedArray())
+    viewAdapter = MyRecyclerViewAdapter(values.toTypedArray(), this)
 
     recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply {
       // use this setting to improve performance if you know that changes
