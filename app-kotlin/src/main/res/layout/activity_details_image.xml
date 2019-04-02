@@ -1,6 +1,112 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/birb" />
+
+    <View
+        android:id="@+id/detailTextOverlayView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageDetailsTitleTextView" />
+
+    <TextView
+        android:id="@+id/imageDetailsTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:paddingTop="16dp"
+        android:text="How to make a Freedom dollar"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/timeAgoValueTextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/timeAgoValueTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="12 hours ago"
+        android:textColor="@android:color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageWidthTitleTextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/imageWidthTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Width"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/imageHeightTitleTextView"
+        app:layout_constraintLeft_toLeftOf="@id/viewCountTitleTextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="450 px"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/imageHeightValueTextView"
+        app:layout_constraintLeft_toLeftOf="@+id/viewCountValueTextView" />
+
+    <TextView
+        android:id="@+id/imageHeightTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Height"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@id/viewCountTitleTextView"
+        app:layout_constraintLeft_toLeftOf="@+id/viewCountTitleTextView" />
+
+    <TextView
+        android:id="@+id/imageHeightValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="600 px"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/viewCountValueTextView"
+        app:layout_constraintLeft_toLeftOf="@+id/viewCountValueTextView" />
+
+    <TextView
+        android:id="@+id/viewCountTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="View Count"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/viewCountValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="285566"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/viewCountTitleTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

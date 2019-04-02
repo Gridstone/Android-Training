@@ -44,6 +44,7 @@ class MyRecyclerViewAdapter(private val myDataset: Array<String>, context: Conte
         // - replace the contents of the view with that element
         val textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
         textView.text = myDataset[position]
+        textView.background.mutate().alpha = 200
         textView.background.alpha = 200
         textView.setGravity(Gravity.CENTER_VERTICAL);
 
