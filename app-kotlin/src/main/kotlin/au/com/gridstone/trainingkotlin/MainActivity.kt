@@ -20,16 +20,13 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_loading_main)
 
-        val values: MutableList<String> = ArrayList()
-
         val call = APIManager.service.getImages()
 
         call.enqueue(object : Callback<ImageDataResponse> {
             override fun onResponse(call: Call<ImageDataResponse>, response: Response<ImageDataResponse>) {
-                response.body()?.getData()?.forEach {imageData ->
-                    values.add(imageData.getTitle())
+                response.body()?.getData()?.let { data ->
+                    populateView(filteredResults(data))
                 }
-                populateView(values)
             }
 
             override fun onFailure(call: Call<ImageDataResponse>, t: Throwable) {
@@ -38,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun populateView(data: List<String>) {
+    fun populateView(data: List<ImageData>) {
         setContentView(R.layout.activity_main)
 
         viewManager = LinearLayoutManager(this)
@@ -57,5 +54,9 @@ class MainActivity : AppCompatActivity() {
             adapter = viewAdapter
 
         }
+    }
+
+    fun filteredResults(results: List<ImageData>): List<ImageData> {
+        return results.filter { it.getIsAlbum() }
     }
 }

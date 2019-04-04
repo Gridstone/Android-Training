@@ -11,12 +11,19 @@ class ImageData {
     @SerializedName("title")
     private var title: String? = null
 
+    @SerializedName("is_album")
+    private var isAlbum: String? = null
+
     fun setTitle(title: String) {
         this.title = title
     }
 
     fun getTitle(): String {
        return title ?: "-"
+    }
+
+    fun getIsAlbum(): Boolean {
+        return isAlbum == "true"
     }
 }
 

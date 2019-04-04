@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class MyRecyclerViewAdapter(private val myDataset: Array<String>, context: Context) :
+class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, context: Context) :
         RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
     private var mContext: Context
@@ -43,7 +43,7 @@ class MyRecyclerViewAdapter(private val myDataset: Array<String>, context: Conte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         val textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
-        textView.text = myDataset[position]
+        textView.text = myDataset[position].getTitle()
         textView.background.mutate().alpha = 200
         textView.background.alpha = 200
         textView.setGravity(Gravity.CENTER_VERTICAL);
