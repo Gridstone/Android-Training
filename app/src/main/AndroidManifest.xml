@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="au.com.gridstone.training">
 
+
   <application
       android:allowBackup="false"
       android:icon="@mipmap/ic_launcher"
