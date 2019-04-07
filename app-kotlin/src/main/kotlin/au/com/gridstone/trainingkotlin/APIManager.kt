@@ -12,28 +12,55 @@ class ImageData {
     private var title: String? = null
 
     @SerializedName("is_album")
-    private var isAlbum: String? = null
+    private var isAlbum: Boolean? = null
 
-    fun setTitle(title: String) {
-        this.title = title
-    }
+    @SerializedName("type")
+    private var type: String? = null
+
+    @SerializedName("link")
+    private var imageURL: String? = null
+
+    @SerializedName("height")
+    private var height: Int? = null
+
+    @SerializedName("width")
+    private var width: Int? = null
+
+    @SerializedName("views")
+    private var viewCount: Int? = null
 
     fun getTitle(): String {
        return title ?: "-"
     }
 
     fun getIsAlbum(): Boolean {
-        return isAlbum == "true"
+        return isAlbum ?: false
+    }
+
+    fun getType(): String {
+        return type ?: ""
+    }
+
+    fun getImageURL(): String {
+        return imageURL ?: ""
+    }
+
+    fun getHeight(): Int {
+        return height ?: 0
+    }
+
+    fun getWidth(): Int {
+        return width ?: 0
+    }
+
+    fun getViewCount(): Int {
+        return viewCount ?: 0
     }
 }
 
 class ImageDataResponse {
     @SerializedName("data")
     private var data: List<ImageData>? = null
-
-    fun setData(data: List<ImageData>) {
-        this.data = data
-    }
 
     fun getData(): List<ImageData> {
         return data ?: ArrayList()

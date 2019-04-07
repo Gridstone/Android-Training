@@ -6,8 +6,10 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 
 class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, context: Context) :
@@ -44,6 +46,8 @@ class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, context: Co
         // - replace the contents of the view with that element
         val textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
         textView.text = myDataset[position].getTitle()
+        val imageView = holder.view.findViewById<ImageView>(R.id.imageListImageView)
+        Picasso.get().load(myDataset[position].getImageURL()).into(imageView);
         textView.background.mutate().alpha = 200
         textView.background.alpha = 200
         textView.setGravity(Gravity.CENTER_VERTICAL);

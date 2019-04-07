@@ -25,12 +25,15 @@ class MainActivity : AppCompatActivity() {
         call.enqueue(object : Callback<ImageDataResponse> {
             override fun onResponse(call: Call<ImageDataResponse>, response: Response<ImageDataResponse>) {
                 response.body()?.getData()?.let { data ->
-                    populateView(filteredResults(data))
+                    val filteredResults = filteredResults(data)
+                    populateView(filteredResults)
+                } ?: run {
+                    setContentView(R.layout.activity_error_main)
                 }
             }
 
             override fun onFailure(call: Call<ImageDataResponse>, t: Throwable) {
-                print(t.message)
+                setContentView(R.layout.activity_error_main)
             }
         })
     }
@@ -57,6 +60,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun filteredResults(results: List<ImageData>): List<ImageData> {
-        return results.filter { it.getIsAlbum() }
+        return results.filter { !it.getIsAlbum() }.filter { it.getType() == "image/jpeg" || it.getType() == "image/png"  }
     }
 }
