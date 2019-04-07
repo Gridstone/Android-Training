@@ -27,10 +27,10 @@ class ImageDetailsActivity: AppCompatActivity() {
         titleTextView.text = imageData.getTitle()
 
         val widthTextView = findViewById<TextView>(R.id.imageWidthValueTextView)
-        widthTextView.text = imageData.getWidth().toString()
+        widthTextView.text = "${imageData.getWidth()} px"
 
         val heightTextView = findViewById<TextView>(R.id.imageHeightValueTextView)
-        heightTextView.text = imageData.getHeight().toString()
+        heightTextView.text = "${imageData.getHeight()} px"
 
         val viewCountTextView = findViewById<TextView>(R.id.viewCountValueTextView)
         viewCountTextView.text = imageData.getViewCount().toString()
