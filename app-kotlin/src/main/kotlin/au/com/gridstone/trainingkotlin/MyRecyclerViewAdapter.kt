@@ -44,16 +44,18 @@ class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, context: Co
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        val imageData = myDataset[position]
         val textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
-        textView.text = myDataset[position].getTitle()
+        textView.text = imageData.getTitle()
         val imageView = holder.view.findViewById<ImageView>(R.id.imageListImageView)
-        Picasso.get().load(myDataset[position].getImageURL()).into(imageView);
+        Picasso.get().load(imageData.getImageURL()).into(imageView)
         textView.background.mutate().alpha = 200
         textView.background.alpha = 200
         textView.setGravity(Gravity.CENTER_VERTICAL);
 
         holder.view.setOnClickListener {
             val intent = Intent(mContext, ImageDetailsActivity::class.java)
+            intent.putExtra("serialized_imageData", imageData)
             mContext.startActivity(intent)
         }
     }

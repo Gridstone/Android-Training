@@ -6,8 +6,9 @@ import retrofit2.Retrofit
 import com.google.gson.annotations.SerializedName
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Headers
+import java.io.Serializable
 
-class ImageData {
+class ImageData: Serializable {
     @SerializedName("title")
     private var title: String? = null
 
@@ -28,6 +29,9 @@ class ImageData {
 
     @SerializedName("views")
     private var viewCount: Int? = null
+
+    @SerializedName("datetime")
+    private var dateTime: Long? = null
 
     fun getTitle(): String {
        return title ?: "-"
@@ -55,6 +59,10 @@ class ImageData {
 
     fun getViewCount(): Int {
         return viewCount ?: 0
+    }
+
+    fun getDateTime(): Long? {
+        return dateTime
     }
 }
 
