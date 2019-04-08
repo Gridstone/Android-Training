@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         call.enqueue(object : Callback<ImageDataResponse> {
             override fun onResponse(call: Call<ImageDataResponse>, response: Response<ImageDataResponse>) {
                 response.body()?.getData()?.let { data ->
-                    val filteredResults = filteredResults(data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data + data)
+                    val filteredResults = filteredResults(data)
                     savedResults = filteredResults
                     populateView(filteredResults)
                 } ?: run {
