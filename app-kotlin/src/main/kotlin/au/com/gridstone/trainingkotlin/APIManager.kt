@@ -88,5 +88,5 @@ object APIManager {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    val service = retrofit.create<ImgurService>(ImgurService::class.java)
+    val service: ImgurService = retrofit.create<ImgurService>(ImgurService::class.java)
 }
