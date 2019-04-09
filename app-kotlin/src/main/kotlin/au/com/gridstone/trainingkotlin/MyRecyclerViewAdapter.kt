@@ -16,35 +16,20 @@ import com.squareup.picasso.Picasso
 class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, controller: Controller) :
         RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
-    private var controller: Controller
+    private var controller: Controller = controller
 
-    init {
-        this.controller = controller
-    }
-
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder.
-    // Each data item is just a string in this case that is shown in a TextView.
     class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view)
 
-
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MyRecyclerViewAdapter.MyViewHolder {
-        // create a new view
         val row = LayoutInflater.from(parent.context)
                 .inflate(R.layout.recyclerview_row, parent, false) as FrameLayout
-        // set the view's size, margins, paddings and layout parameters
         row.setPadding(0,0,0,1)
 
         return MyViewHolder(row)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         val imageData = myDataset[position]
         val textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
         textView.text = imageData.getTitle()
@@ -63,6 +48,5 @@ class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, controller:
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = myDataset.size
 }

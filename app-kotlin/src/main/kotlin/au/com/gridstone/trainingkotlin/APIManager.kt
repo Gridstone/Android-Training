@@ -49,12 +49,12 @@ class ImageData: Serializable {
         return isAlbum ?: false
     }
 
-    fun getType(): String {
-        return type ?: ""
+    fun getType(): String? {
+        return type
     }
 
-    fun getImageURL(): String {
-        return imageURL ?: ""
+    fun getImageURL(): String? {
+        return imageURL
     }
 
     fun getHeight(): Int {

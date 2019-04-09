@@ -16,7 +16,7 @@ class DetailsController(args: Bundle): Controller(args) {
     constructor(id: String) : this(bundleOf("IMAGE_ID" to id))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflater.inflate(R.layout.activity_details_image, container, false)
+        val view = inflater.inflate(R.layout.controller_details, container, false)
         APIManager.cachedImageData?.first { data ->
             data.getId() == args.getString("IMAGE_ID")
         }?.let {imageData ->
