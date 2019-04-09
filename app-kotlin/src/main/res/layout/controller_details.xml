@@ -8,8 +8,7 @@
         android:id="@+id/imageDetailsImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/birb" />
+        android:scaleType="centerCrop" />
 
     <View
         android:id="@+id/detailTextOverlayView"
@@ -36,7 +35,6 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:paddingTop="16dp"
-        android:text="How to make a Freedom dollar"
         android:textColor="@android:color/white"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -51,7 +49,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:text="12 hours ago"
         android:textColor="@android:color/white"
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/imageWidthTitleTextView"
@@ -64,7 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Width"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/imageHeightTitleTextView"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -75,7 +71,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="450 px"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/imageHeightValueTextView"
         app:layout_constraintLeft_toRightOf="@+id/barrier" />
@@ -86,7 +81,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Height"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@id/viewCountTitleTextView"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -97,7 +91,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="600 px"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/viewCountValueTextView"
         app:layout_constraintLeft_toRightOf="@+id/barrier" />
@@ -108,7 +101,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="View Count"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -119,7 +111,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="285566"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/barrier" />
