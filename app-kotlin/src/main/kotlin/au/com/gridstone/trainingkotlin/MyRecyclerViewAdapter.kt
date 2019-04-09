@@ -1,7 +1,5 @@
 package au.com.gridstone.trainingkotlin
 
-import android.content.Context
-import android.content.Intent
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,16 +7,19 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bluelinelabs.conductor.Controller
+import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.squareup.picasso.Picasso
 
 
-class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, context: Context) :
+class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, controller: Controller) :
         RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
-    private var mContext: Context
+    private var controller: Controller
 
     init {
-        mContext = context
+        this.controller = controller
     }
 
     // Provide a reference to the views for each data item
@@ -54,9 +55,11 @@ class MyRecyclerViewAdapter(private val myDataset: Array<ImageData>, context: Co
         textView.setGravity(Gravity.CENTER_VERTICAL);
 
         holder.view.setOnClickListener {
-            val intent = Intent(mContext, ImageDetailsActivity::class.java)
-            intent.putExtra("serialized_imageData", imageData)
-            mContext.startActivity(intent)
+            imageData.getId()?.let { id ->
+                controller.router.pushController(RouterTransaction.with(DetailsController(id))
+                        .pushChangeHandler(FadeChangeHandler()).popChangeHandler(FadeChangeHandler()))
+            }
+
         }
     }
 

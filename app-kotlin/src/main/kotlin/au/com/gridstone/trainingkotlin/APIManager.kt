@@ -9,6 +9,10 @@ import retrofit2.http.Headers
 import java.io.Serializable
 
 class ImageData: Serializable {
+
+    @SerializedName("id")
+    private var id: String? = null
+
     @SerializedName("title")
     private var title: String? = null
 
@@ -32,6 +36,10 @@ class ImageData: Serializable {
 
     @SerializedName("datetime")
     private var dateTime: Long? = null
+
+    fun getId(): String? {
+        return id
+    }
 
     fun getTitle(): String {
        return title ?: "-"
@@ -89,4 +97,6 @@ object APIManager {
             .build()
 
     val service: ImgurService = retrofit.create<ImgurService>(ImgurService::class.java)
+
+    var cachedImageData: List<ImageData>? = null
 }
