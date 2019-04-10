@@ -15,24 +15,24 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    private var router: Router? = null
+  private var router: Router? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+    setContentView(R.layout.activity_main)
 
-        val container: ViewGroup = findViewById(R.id.controller_container)
+    val container: ViewGroup = findViewById(R.id.controller_container)
 
-        router = Conductor.attachRouter(this, container, savedInstanceState)
-        if (!router!!.hasRootController()) {
-            router!!.setRoot(RouterTransaction.with(ListController()))
-        }
+    router = Conductor.attachRouter(this, container, savedInstanceState)
+    if (!router!!.hasRootController()) {
+      router!!.setRoot(RouterTransaction.with(ListController()))
     }
+  }
 
-    override fun onBackPressed() {
-        if (!router!!.handleBack()) {
-            super.onBackPressed()
-        }
+  override fun onBackPressed() {
+    if (!router!!.handleBack()) {
+      super.onBackPressed()
     }
+  }
 }

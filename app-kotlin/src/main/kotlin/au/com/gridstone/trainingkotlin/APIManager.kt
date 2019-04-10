@@ -8,95 +8,95 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Headers
 import java.io.Serializable
 
-class ImageData: Serializable {
+class ImageData : Serializable {
 
-    @SerializedName("id")
-    private var id: String? = null
+  @SerializedName("id")
+  private var id: String? = null
 
-    @SerializedName("title")
-    private var title: String? = null
+  @SerializedName("title")
+  private var title: String? = null
 
-    @SerializedName("is_album")
-    private var isAlbum: Boolean? = null
+  @SerializedName("is_album")
+  private var isAlbum: Boolean? = null
 
-    @SerializedName("type")
-    private var type: String? = null
+  @SerializedName("type")
+  private var type: String? = null
 
-    @SerializedName("link")
-    private var imageURL: String? = null
+  @SerializedName("link")
+  private var imageURL: String? = null
 
-    @SerializedName("height")
-    private var height: Int? = null
+  @SerializedName("height")
+  private var height: Int? = null
 
-    @SerializedName("width")
-    private var width: Int? = null
+  @SerializedName("width")
+  private var width: Int? = null
 
-    @SerializedName("views")
-    private var viewCount: Int? = null
+  @SerializedName("views")
+  private var viewCount: Int? = null
 
-    @SerializedName("datetime")
-    private var dateTime: Long? = null
+  @SerializedName("datetime")
+  private var dateTime: Long? = null
 
-    fun getId(): String? {
-        return id
-    }
+  fun getId(): String? {
+    return id
+  }
 
-    fun getTitle(): String {
-       return title ?: "-"
-    }
+  fun getTitle(): String {
+    return title ?: "-"
+  }
 
-    fun getIsAlbum(): Boolean {
-        return isAlbum ?: false
-    }
+  fun getIsAlbum(): Boolean {
+    return isAlbum ?: false
+  }
 
-    fun getType(): String? {
-        return type
-    }
+  fun getType(): String? {
+    return type
+  }
 
-    fun getImageURL(): String? {
-        return imageURL
-    }
+  fun getImageURL(): String? {
+    return imageURL
+  }
 
-    fun getHeight(): Int {
-        return height ?: 0
-    }
+  fun getHeight(): Int {
+    return height ?: 0
+  }
 
-    fun getWidth(): Int {
-        return width ?: 0
-    }
+  fun getWidth(): Int {
+    return width ?: 0
+  }
 
-    fun getViewCount(): Int {
-        return viewCount ?: 0
-    }
+  fun getViewCount(): Int {
+    return viewCount ?: 0
+  }
 
-    fun getDateTime(): Long? {
-        return dateTime
-    }
+  fun getDateTime(): Long? {
+    return dateTime
+  }
 }
 
 class ImageDataResponse {
-    @SerializedName("data")
-    private var data: List<ImageData>? = null
+  @SerializedName("data")
+  private var data: List<ImageData>? = null
 
-    fun getData(): List<ImageData> {
-        return data ?: ArrayList()
-    }
+  fun getData(): List<ImageData> {
+    return data ?: ArrayList()
+  }
 }
 
 interface ImgurService {
-    @Headers("Authorization: Client-ID 3436c108ccc17d3")
-    @GET("3/gallery/hot/viral")
-    fun getImages(): Call<ImageDataResponse>
+  @Headers("Authorization: Client-ID 3436c108ccc17d3")
+  @GET("3/gallery/hot/viral")
+  fun getImages(): Call<ImageDataResponse>
 }
 
 object APIManager {
 
-    private val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.imgur.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+  private val retrofit = Retrofit.Builder()
+      .baseUrl("https://api.imgur.com/")
+      .addConverterFactory(GsonConverterFactory.create())
+      .build()
 
-    val service: ImgurService = retrofit.create<ImgurService>(ImgurService::class.java)
+  val service: ImgurService = retrofit.create<ImgurService>(ImgurService::class.java)
 
-    var cachedImageData: List<ImageData>? = null
+  var cachedImageData: List<ImageData>? = null
 }

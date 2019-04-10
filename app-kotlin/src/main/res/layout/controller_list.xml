@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- A RecyclerView with some commonly used attributes -->
 <FrameLayout
-    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <ProgressBar
-        android:id="@+id/list_progress_bar"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center">
-    </ProgressBar>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android="http://schemas.android.com/apk/res/android"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    </androidx.recyclerview.widget.RecyclerView>
+    android:layout_height="match_parent"
+    >
+  <ProgressBar
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/list_progress_bar"
+      android:layout_width="120dp"
+      android:layout_height="120dp"
+      android:layout_gravity="center"
+      >
+  </ProgressBar>
+  <androidx.recyclerview.widget.RecyclerView
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/my_recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scrollbars="vertical"
+      android:visibility="invisible"
+      android="http://schemas.android.com/apk/res/android"
+      >
+  </androidx.recyclerview.widget.RecyclerView>
 </FrameLayout>
 
