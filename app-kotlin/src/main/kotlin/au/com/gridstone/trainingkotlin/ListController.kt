@@ -25,7 +25,8 @@ class ListController : Controller() {
 
   private fun populateResults(data: List<ImageData>) {
     router.activity?.applicationContext?.let { context ->
-      val viewAdapter = MyRecyclerViewAdapter(data.toTypedArray(), this)
+      val viewAdapter = MyRecyclerViewAdapter(this)
+      viewAdapter.set(data)
 
       val viewManager = LinearLayoutManager(context)
 

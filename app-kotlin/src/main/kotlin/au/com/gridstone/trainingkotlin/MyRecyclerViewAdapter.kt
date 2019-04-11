@@ -1,5 +1,6 @@
 package au.com.gridstone.trainingkotlin
 
+import android.graphics.ImageDecoder
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,14 +14,19 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.squareup.picasso.Picasso
 
 class MyRecyclerViewAdapter(
-  private val myDataset: Array<ImageData>,
   controller: Controller
 ) :
     RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
   private var controller: Controller = controller
 
+  private lateinit var myDataset: List<ImageData>
+
   class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view)
+
+  fun set(data: List<ImageData>) {
+    myDataset = data
+  }
 
   override fun onCreateViewHolder(
     parent: ViewGroup,
