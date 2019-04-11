@@ -15,7 +15,7 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-  private var router: Router? = null
+  private lateinit var router: Router
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -25,13 +25,14 @@ class MainActivity : AppCompatActivity() {
     val container: ViewGroup = findViewById(R.id.controller_container)
 
     router = Conductor.attachRouter(this, container, savedInstanceState)
-    if (!router!!.hasRootController()) {
-      router!!.setRoot(RouterTransaction.with(ListController()))
+
+    if (!router.hasRootController()) {
+      router.setRoot(RouterTransaction.with(ListController()))
     }
   }
 
   override fun onBackPressed() {
-    if (!router!!.handleBack()) {
+    if (!router.handleBack()) {
       super.onBackPressed()
     }
   }
