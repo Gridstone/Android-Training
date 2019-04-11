@@ -1,6 +1,5 @@
 package au.com.gridstone.trainingkotlin
 
-import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,14 +22,11 @@ class ListController : Controller() {
 
   override fun onAttach(view: View) {
     super.onAttach(view)
-    loadData()
-  }
 
-  private fun populateResults(data: List<ImageData>) {
     router.activity?.applicationContext?.let { context ->
       val viewAdapter = MyRecyclerViewAdapter()
-      viewAdapter.set(data)
-      viewAdapter.tapHandler = {id ->
+      viewAdapter.set(ArrayList())
+      viewAdapter.tapHandler = { id ->
         val transaction: RouterTransaction = RouterTransaction.with(DetailsController(id))
             .pushChangeHandler(FadeChangeHandler())
             .popChangeHandler(FadeChangeHandler())
@@ -41,9 +37,6 @@ class ListController : Controller() {
 
       view?.findViewById<RecyclerView>(R.id.my_recycler_view)
           ?.let { recyclerView ->
-            recyclerView.isVisible = true
-            view?.findViewById<ProgressBar>(R.id.list_progress_bar)
-                ?.isVisible = false
             recyclerView.apply {
               setHasFixedSize(true)
               layoutManager = viewManager
@@ -51,6 +44,20 @@ class ListController : Controller() {
             }
           }
     }
+
+    loadData()
+  }
+
+  private fun populateResults(data: List<ImageData>) {
+    view?.findViewById<RecyclerView>(R.id.my_recycler_view)
+        ?.let { recyclerView ->
+          (recyclerView.adapter as MyRecyclerViewAdapter).set(data)
+          recyclerView.adapter?.notifyDataSetChanged()
+          recyclerView.isVisible = true
+          view?.findViewById<ProgressBar>(R.id.list_progress_bar)
+              ?.isVisible = false
+
+        }
   }
 
   private fun loadData() {
