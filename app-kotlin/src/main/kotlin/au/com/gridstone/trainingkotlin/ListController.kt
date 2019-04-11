@@ -22,15 +22,12 @@ class ListController : Controller() {
     return inflater.inflate(R.layout.controller_list, container, false)
   }
 
-  override fun onActivityStarted(activity: Activity) {
-    super.onActivityStarted(activity)
-    loadData()
-  }
-
   override fun onAttach(view: View) {
     super.onAttach(view)
     APIManager.cachedImageData?.let { imageData ->
       populateResults(imageData)
+    } ?: run {
+      loadData()
     }
   }
 
