@@ -16,7 +16,15 @@ class MyRecyclerViewAdapter :
 
   private lateinit var myDataset: List<ImageData>
 
-  class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view)
+  class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
+    val titleTextView = view.findViewById<TextView>(R.id.imageListTitle)
+        .apply {
+          this.gravity = Gravity.CENTER_VERTICAL
+          this.background.mutate()
+              .alpha = 200
+        }
+    val imageView = view.findViewById<ImageView>(R.id.imageListImageView)
+  }
 
   fun set(data: List<ImageData>) {
     myDataset = data
@@ -36,16 +44,10 @@ class MyRecyclerViewAdapter :
     position: Int
   ) {
     val imageData = myDataset[position]
-    val textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
-    textView.text = imageData.title
-    val imageView = holder.view.findViewById<ImageView>(R.id.imageListImageView)
+    holder.titleTextView.text = imageData.title
     Picasso.get()
         .load(imageData.imageUrl)
-        .into(imageView)
-    textView.background.mutate()
-        .alpha = 200
-    textView.background.alpha = 200
-    textView.setGravity(Gravity.CENTER_VERTICAL);
+        .into(holder.imageView)
 
     holder.view.setOnClickListener {
       imageData.id
