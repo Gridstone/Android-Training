@@ -1,6 +1,7 @@
 package au.com.gridstone.trainingkotlin
 
 import android.content.Context
+import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -26,11 +27,8 @@ class DetailsView(
     titleView.text = imageData.title
     imageData.dateTime
         ?.let { imageTimeInSeconds ->
-          val currentTimeInSeconds = System.currentTimeMillis() / 1000
-          val seconds = currentTimeInSeconds - imageTimeInSeconds
-          val minutes = seconds / 60
-          val hours = minutes / 60
-          timeAgoView.text = "$hours hours ago"
+          val timeAgo: CharSequence = DateUtils.getRelativeTimeSpanString(imageTimeInSeconds * 1000)
+          timeAgoView.text = timeAgo
         }
     widthValueView.text = "${imageData.width} px"
     heightValueView.text = "${imageData.height} px"
