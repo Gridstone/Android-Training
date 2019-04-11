@@ -28,8 +28,6 @@
 
     </activity>
 
-    <activity android:name=".ImageDetailsActivity" />
-
   </application>
 
 </manifest>
