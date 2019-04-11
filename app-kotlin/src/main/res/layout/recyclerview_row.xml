@@ -19,8 +19,8 @@
       android:layout_height="48dp"
       android:layout_gravity="bottom"
       android:background="@android:color/black"
-      android:paddingLeft="26dp"
-      android:paddingRight="26dp"
+      android:paddingStart="26dp"
+      android:paddingEnd="26dp"
       android:textColor="@android:color/white"
       android:textSize="18sp"
       />

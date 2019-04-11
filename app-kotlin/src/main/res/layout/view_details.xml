@@ -40,11 +40,11 @@
       android:layout_marginRight="16dp"
       android:paddingTop="16dp"
       android:textColor="@android:color/white"
-      android:textSize="20dp"
+      android:textSize="20sp"
       android:textStyle="bold"
       app:layout_constraintBottom_toTopOf="@+id/timeAgoValueTextView"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
       />
 
   <TextView
@@ -55,10 +55,10 @@
       android:layout_marginLeft="16dp"
       android:layout_marginRight="16dp"
       android:textColor="@android:color/white"
-      android:textSize="18dp"
+      android:textSize="18sp"
       app:layout_constraintBottom_toTopOf="@+id/imageWidthTitleTextView"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
       />
 
   <TextView
@@ -66,11 +66,11 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
-      android:layout_marginLeft="16dp"
+      android:layout_marginStart="16dp"
       android:text="Width"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toTopOf="@+id/imageHeightTitleTextView"
-      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
       />
 
   <TextView
@@ -78,10 +78,10 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
-      android:layout_marginLeft="16dp"
+      android:layout_marginStart="16dp"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toTopOf="@+id/imageHeightValueTextView"
-      app:layout_constraintLeft_toRightOf="@+id/barrier"
+      app:layout_constraintStart_toEndOf="@+id/barrier"
       />
 
   <TextView
@@ -89,11 +89,11 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
-      android:layout_marginLeft="16dp"
+      android:layout_marginStart="16dp"
       android:text="Height"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toTopOf="@id/viewCountTitleTextView"
-      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
       />
 
   <TextView
@@ -101,10 +101,10 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
-      android:layout_marginLeft="16dp"
+      android:layout_marginStart="16dp"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toTopOf="@+id/viewCountValueTextView"
-      app:layout_constraintLeft_toRightOf="@+id/barrier"
+      app:layout_constraintStart_toEndOf="@+id/barrier"
       />
 
   <TextView
@@ -112,11 +112,11 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
-      android:layout_marginLeft="16dp"
+      android:layout_marginStart="16dp"
       android:text="View Count"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
       />
 
   <TextView
@@ -124,9 +124,9 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
-      android:layout_marginLeft="16dp"
+      android:layout_marginStart="16dp"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toRightOf="@+id/barrier"
+      app:layout_constraintStart_toEndOf="@+id/barrier"
       />
 </au.com.gridstone.trainingkotlin.DetailsView>
