@@ -1,5 +1,6 @@
 package au.com.gridstone.trainingkotlin
 
+import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bluelinelabs.conductor.Controller
+import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 
 class ListController : Controller() {
 
@@ -25,8 +28,14 @@ class ListController : Controller() {
 
   private fun populateResults(data: List<ImageData>) {
     router.activity?.applicationContext?.let { context ->
-      val viewAdapter = MyRecyclerViewAdapter(this)
+      val viewAdapter = MyRecyclerViewAdapter()
       viewAdapter.set(data)
+      viewAdapter.tapHandler = {id ->
+        val transaction: RouterTransaction = RouterTransaction.with(DetailsController(id))
+            .pushChangeHandler(FadeChangeHandler())
+            .popChangeHandler(FadeChangeHandler())
+        router.pushController(transaction)
+      }
 
       val viewManager = LinearLayoutManager(context)
 

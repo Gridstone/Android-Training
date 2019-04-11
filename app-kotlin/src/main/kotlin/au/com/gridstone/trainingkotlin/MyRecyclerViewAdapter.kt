@@ -1,6 +1,5 @@
 package au.com.gridstone.trainingkotlin
 
-import android.graphics.ImageDecoder
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,17 +7,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.RouterTransaction
-import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.squareup.picasso.Picasso
 
-class MyRecyclerViewAdapter(
-  controller: Controller
-) :
+class MyRecyclerViewAdapter :
     RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
-  private var controller: Controller = controller
+  var tapHandler: ((imageId: String) -> Unit)? = null
 
   private lateinit var myDataset: List<ImageData>
 
@@ -56,12 +50,8 @@ class MyRecyclerViewAdapter(
     holder.view.setOnClickListener {
       imageData.id
           ?.let { id ->
-            controller.router.pushController(
-                RouterTransaction.with(DetailsController(id))
-                    .pushChangeHandler(FadeChangeHandler()).popChangeHandler(FadeChangeHandler())
-            )
+            tapHandler?.invoke(id)
           }
-
     }
   }
 
