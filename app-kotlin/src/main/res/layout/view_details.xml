@@ -1,6 +1,6 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<au.com.gridstone.trainingkotlin.DetailsView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -65,9 +65,9 @@
       android:id="@+id/imageWidthTitleTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Width"
       android:layout_marginBottom="16dp"
       android:layout_marginLeft="16dp"
+      android:text="Width"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toTopOf="@+id/imageHeightTitleTextView"
       app:layout_constraintLeft_toLeftOf="parent"
@@ -88,9 +88,9 @@
       android:id="@+id/imageHeightTitleTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Height"
       android:layout_marginBottom="16dp"
       android:layout_marginLeft="16dp"
+      android:text="Height"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toTopOf="@id/viewCountTitleTextView"
       app:layout_constraintLeft_toLeftOf="parent"
@@ -111,9 +111,9 @@
       android:id="@+id/viewCountTitleTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="View Count"
       android:layout_marginBottom="16dp"
       android:layout_marginLeft="16dp"
+      android:text="View Count"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
@@ -129,4 +129,4 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toRightOf="@+id/barrier"
       />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</au.com.gridstone.trainingkotlin.DetailsView>
