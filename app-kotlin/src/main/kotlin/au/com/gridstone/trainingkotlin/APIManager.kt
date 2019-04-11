@@ -4,6 +4,8 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.Retrofit
 import com.google.gson.annotations.SerializedName
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Headers
 import java.io.Serializable
@@ -39,5 +41,49 @@ object APIManager {
 
   val service: ImgurService = retrofit.create<ImgurService>(ImgurService::class.java)
 
-  var cachedImageData: List<ImageData>? = null
+  private var cachedImageData: List<ImageData>? = null
+
+  fun getImages(
+    useCached: Boolean,
+    callback: (items: List<ImageData>) -> Unit
+  ) {
+    if (useCached) {
+      cachedImageData?.let {
+        callback(it)
+        return
+      }
+    }
+
+    service.getImages()
+        .enqueue(object : Callback<ImageDataResponse> {
+          override fun onResponse(
+            call: Call<ImageDataResponse>,
+            response: Response<ImageDataResponse>
+          ) {
+            response.body()
+                ?.data?.let { data ->
+              val filteredResults = filteredResults(data)
+              cachedImageData = filteredResults
+              callback(filteredResults)
+            }
+          }
+
+          override fun onFailure(
+            call: Call<ImageDataResponse>,
+            t: Throwable
+          ) {
+          }
+        })
+  }
+
+  fun getCachedImageForID(id: String): ImageData? {
+    return cachedImageData?.first { data ->
+      data.id == id
+    }
+  }
+
+  private fun filteredResults(results: List<ImageData>): List<ImageData> {
+    return results.filter { !it.isAlbum }
+        .filter { it.type == "image/jpeg" || it.type == "image/png" }
+  }
 }

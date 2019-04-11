@@ -21,9 +21,7 @@ class DetailsController(args: Bundle) : Controller(args) {
     container: ViewGroup
   ): View {
     val view = inflater.inflate(R.layout.controller_details, container, false)
-    APIManager.cachedImageData?.first { data ->
-      data.id == args.getString(KEY_IMAGE_ID)
-    }
+    APIManager.getCachedImageForID(args.getString(KEY_IMAGE_ID))
         ?.let { imageData ->
           view.findViewById<TextView>(R.id.imageDetailsTitleTextView)
               .text = imageData.id

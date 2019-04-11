@@ -1,6 +1,5 @@
 package au.com.gridstone.trainingkotlin
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bluelinelabs.conductor.Controller
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ListController : Controller() {
 
@@ -24,11 +20,7 @@ class ListController : Controller() {
 
   override fun onAttach(view: View) {
     super.onAttach(view)
-    APIManager.cachedImageData?.let { imageData ->
-      populateResults(imageData)
-    } ?: run {
-      loadData()
-    }
+    loadData()
   }
 
   private fun populateResults(data: List<ImageData>) {
@@ -52,32 +44,6 @@ class ListController : Controller() {
   }
 
   private fun loadData() {
-    val call = APIManager.service.getImages()
-
-    call.enqueue(object : Callback<ImageDataResponse> {
-      override fun onResponse(
-        call: Call<ImageDataResponse>,
-        response: Response<ImageDataResponse>
-      ) {
-        response.body()
-            ?.data
-            ?.let { data ->
-              val filteredResults = filteredResults(data)
-              populateResults(filteredResults)
-              APIManager.cachedImageData = filteredResults
-            }
-      }
-
-      override fun onFailure(
-        call: Call<ImageDataResponse>,
-        t: Throwable
-      ) {
-      }
-    })
-  }
-
-  private fun filteredResults(results: List<ImageData>): List<ImageData> {
-    return results.filter { !it.isAlbum }
-        .filter { it.type == "image/jpeg" || it.type == "image/png" }
+    APIManager.getImages(useCached = true) { imageData -> populateResults(imageData) }
   }
 }
