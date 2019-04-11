@@ -28,8 +28,6 @@ class MyRecyclerViewAdapter(
   ): MyRecyclerViewAdapter.MyViewHolder {
     val row = LayoutInflater.from(parent.context)
         .inflate(R.layout.recyclerview_row, parent, false) as FrameLayout
-    row.setPadding(0, 0, 0, 1)
-
     return MyViewHolder(row)
   }
 
