@@ -10,9 +10,11 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import com.squareup.picasso.Picasso
 
+private const val KEY_IMAGE_ID = "image_id"
+
 class DetailsController(args: Bundle) : Controller(args) {
 
-  constructor(id: String) : this(bundleOf("IMAGE_ID" to id))
+  constructor(id: String) : this(bundleOf(KEY_IMAGE_ID to id))
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -20,27 +22,27 @@ class DetailsController(args: Bundle) : Controller(args) {
   ): View {
     val view = inflater.inflate(R.layout.controller_details, container, false)
     APIManager.cachedImageData?.first { data ->
-      data.getId() == args.getString("IMAGE_ID")
+      data.id == args.getString(KEY_IMAGE_ID)
     }
         ?.let { imageData ->
           view.findViewById<TextView>(R.id.imageDetailsTitleTextView)
-              .text = imageData.getTitle()
+              .text = imageData.id
           view.findViewById<View>(R.id.detailTextOverlayView)
               .background.mutate()
               .alpha = 200
           Picasso.get()
-              .load(imageData.getImageURL())
+              .load(imageData.imageUrl)
               .into(view.findViewById<ImageView>(R.id.imageDetailsImageView))
           view.findViewById<TextView>(R.id.imageDetailsTitleTextView)
-              .text = imageData.getTitle()
+              .text = imageData.title
           view.findViewById<TextView>(R.id.imageWidthValueTextView)
-              .text = "${imageData.getWidth()} px"
+              .text = "${imageData.width} px"
           view.findViewById<TextView>(R.id.imageHeightValueTextView)
-              .text = "${imageData.getHeight()} px"
+              .text = "${imageData.height} px"
           view.findViewById<TextView>(R.id.viewCountValueTextView)
-              .text = imageData.getViewCount()
+              .text = imageData.views
               .toString()
-          imageData.getDateTime()
+          imageData.dateTime
               ?.let { imageTimeInSeconds ->
                 val currentTimeInSeconds = System.currentTimeMillis() / 1000
                 val seconds = currentTimeInSeconds - imageTimeInSeconds

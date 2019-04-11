@@ -63,7 +63,7 @@ class ListController : Controller() {
         response: Response<ImageDataResponse>
       ) {
         response.body()
-            ?.getData()
+            ?.data
             ?.let { data ->
               val filteredResults = filteredResults(data)
               populateResults(filteredResults)
@@ -80,7 +80,7 @@ class ListController : Controller() {
   }
 
   private fun filteredResults(results: List<ImageData>): List<ImageData> {
-    return results.filter { !it.getIsAlbum() }
-        .filter { it.getType() == "image/jpeg" || it.getType() == "image/png" }
+    return results.filter { !it.isAlbum }
+        .filter { it.type == "image/jpeg" || it.type == "image/png" }
   }
 }

@@ -8,80 +8,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Headers
 import java.io.Serializable
 
-class ImageData : Serializable {
+data class ImageData(
+  val id: String?,
+  val title: String = "-",
+  @SerializedName("is_album") val isAlbum: Boolean = false,
+  val type: String?,
+  @SerializedName("link") val imageUrl: String?,
+  val views: Int = 0,
+  val width: Int = 0,
+  val height: Int = 0,
+  @SerializedName("datetime") val dateTime: Long?
+)
 
-  @SerializedName("id")
-  private var id: String? = null
-
-  @SerializedName("title")
-  private var title: String? = null
-
-  @SerializedName("is_album")
-  private var isAlbum: Boolean? = null
-
-  @SerializedName("type")
-  private var type: String? = null
-
-  @SerializedName("link")
-  private var imageURL: String? = null
-
-  @SerializedName("height")
-  private var height: Int? = null
-
-  @SerializedName("width")
-  private var width: Int? = null
-
-  @SerializedName("views")
-  private var viewCount: Int? = null
-
-  @SerializedName("datetime")
-  private var dateTime: Long? = null
-
-  fun getId(): String? {
-    return id
-  }
-
-  fun getTitle(): String {
-    return title ?: "-"
-  }
-
-  fun getIsAlbum(): Boolean {
-    return isAlbum ?: false
-  }
-
-  fun getType(): String? {
-    return type
-  }
-
-  fun getImageURL(): String? {
-    return imageURL
-  }
-
-  fun getHeight(): Int {
-    return height ?: 0
-  }
-
-  fun getWidth(): Int {
-    return width ?: 0
-  }
-
-  fun getViewCount(): Int {
-    return viewCount ?: 0
-  }
-
-  fun getDateTime(): Long? {
-    return dateTime
-  }
-}
-
-class ImageDataResponse {
-  @SerializedName("data")
-  private var data: List<ImageData>? = null
-
-  fun getData(): List<ImageData> {
-    return data ?: ArrayList()
-  }
-}
+data class ImageDataResponse(
+  val data: List<ImageData>
+)
 
 interface ImgurService {
   @Headers("Authorization: Client-ID 3436c108ccc17d3")

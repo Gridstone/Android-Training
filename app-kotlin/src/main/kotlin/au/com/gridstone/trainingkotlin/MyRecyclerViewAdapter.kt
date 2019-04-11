@@ -39,10 +39,10 @@ class MyRecyclerViewAdapter(
   ) {
     val imageData = myDataset[position]
     val textView = holder.view.findViewById<TextView>(R.id.imageListTitle)
-    textView.text = imageData.getTitle()
+    textView.text = imageData.title
     val imageView = holder.view.findViewById<ImageView>(R.id.imageListImageView)
     Picasso.get()
-        .load(imageData.getImageURL())
+        .load(imageData.imageUrl)
         .into(imageView)
     textView.background.mutate()
         .alpha = 200
@@ -50,7 +50,7 @@ class MyRecyclerViewAdapter(
     textView.setGravity(Gravity.CENTER_VERTICAL);
 
     holder.view.setOnClickListener {
-      imageData.getId()
+      imageData.id
           ?.let { id ->
             controller.router.pushController(
                 RouterTransaction.with(DetailsController(id))
