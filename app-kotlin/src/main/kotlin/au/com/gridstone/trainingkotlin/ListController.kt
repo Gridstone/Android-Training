@@ -7,11 +7,14 @@ import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 
 class ListController : Controller() {
+
+  private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -35,7 +38,7 @@ class ListController : Controller() {
 
       val viewManager = LinearLayoutManager(context)
 
-      view?.findViewById<RecyclerView>(R.id.my_recycler_view)
+      view.findViewById<RecyclerView>(R.id.my_recycler_view)
           ?.let { recyclerView ->
             recyclerView.apply {
               setHasFixedSize(true)
@@ -43,6 +46,11 @@ class ListController : Controller() {
               adapter = viewAdapter
             }
           }
+    }
+
+    swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
+    swipeRefreshLayout.setOnRefreshListener {
+      loadData()
     }
 
     loadData()
@@ -61,6 +69,10 @@ class ListController : Controller() {
   }
 
   private fun loadData() {
-    APIManager.getImages(useCached = true) { imageData -> populateResults(imageData) }
+    APIManager.getImages(useCached = true) { imageData ->
+      // Populate results and disable refresh animation if required
+      populateResults(imageData)
+      swipeRefreshLayout.isRefreshing = false
+    }
   }
 }

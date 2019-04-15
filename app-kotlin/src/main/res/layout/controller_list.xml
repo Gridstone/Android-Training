@@ -13,15 +13,20 @@
       android:layout_gravity="center"
       >
   </ProgressBar>
-  <androidx.recyclerview.widget.RecyclerView
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      android:id="@+id/my_recycler_view"
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+      android:id="@+id/swipe_refresh_layout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:scrollbars="vertical"
-      android:visibility="invisible"
-      android="http://schemas.android.com/apk/res/android"
       >
-  </androidx.recyclerview.widget.RecyclerView>
+    <androidx.recyclerview.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:visibility="invisible"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>
 
