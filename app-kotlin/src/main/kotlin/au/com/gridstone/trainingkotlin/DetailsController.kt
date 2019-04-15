@@ -26,9 +26,12 @@ class DetailsController(args: Bundle) : Controller(args) {
 
     if (view !is DetailsView) throw IllegalArgumentException()
 
-    APIManager.getCachedImageForID(args.getString(KEY_IMAGE_ID))
-        ?.let { imageData ->
-          view.display(imageData)
+    args.getString(KEY_IMAGE_ID)
+        ?.let { id ->
+          APIManager.getCachedImageForID(id)
+              ?.let { imageData ->
+                view.display(imageData)
+              }
         }
   }
 }
