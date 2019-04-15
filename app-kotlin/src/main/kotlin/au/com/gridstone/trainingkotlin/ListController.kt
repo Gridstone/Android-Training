@@ -20,12 +20,7 @@ class ListController : Controller() {
     inflater: LayoutInflater,
     container: ViewGroup
   ): View {
-    return inflater.inflate(R.layout.controller_list, container, false)
-  }
-
-  override fun onAttach(view: View) {
-    super.onAttach(view)
-
+    val view = inflater.inflate(R.layout.controller_list, container, false)
     router.activity?.applicationContext?.let { context ->
       val viewAdapter = MyRecyclerViewAdapter()
       viewAdapter.set(ArrayList())
@@ -40,6 +35,8 @@ class ListController : Controller() {
 
       view.findViewById<RecyclerView>(R.id.my_recycler_view)
           ?.let { recyclerView ->
+            print(recyclerView.layoutManager)
+            print(recyclerView.adapter)
             recyclerView.apply {
               setHasFixedSize(true)
               layoutManager = viewManager
@@ -53,6 +50,13 @@ class ListController : Controller() {
       loadData()
     }
 
+    loadData()
+
+    return view
+  }
+
+  override fun onAttach(view: View) {
+    super.onAttach(view)
     loadData()
   }
 
