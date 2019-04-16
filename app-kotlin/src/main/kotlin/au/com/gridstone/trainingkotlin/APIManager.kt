@@ -1,5 +1,6 @@
 package au.com.gridstone.trainingkotlin
 
+import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.Retrofit
@@ -8,19 +9,25 @@ import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Path
 
+
+data class Stat(
+  val name: String
+)
+
+data class StatDetail(
+  @SerializedName("base_stat")
+  val baseStat: Int,
+  val stat: Stat
+)
+
 data class Pokemon(
   val id: Int,
-  val name: String
-) {
-  fun imageURL(): String {
-    val formattedID = String.format("%03d", id)
-    return "https://assets.pokemon.com/assets/cms2/img/pokedex/full/$formattedID.png"
-  }
-}
+  val name: String,
+  val stats: List<StatDetail>
+)
 
 data class PokemonSummary(
-  val name: String,
-  val url: String
+  val name: String
 )
 
 data class PokemonBaseResponse(

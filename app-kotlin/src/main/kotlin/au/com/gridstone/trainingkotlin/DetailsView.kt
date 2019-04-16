@@ -16,7 +16,6 @@ class DetailsView(
 ) : ConstraintLayout(context, attrs) {
 
   private val titleView: TextView by bindView(R.id.imageDetailsTitleTextView)
-  private val timeAgoView: TextView by bindView(R.id.timeAgoValueTextView)
   private val widthValueView: TextView by bindView(R.id.imageWidthValueTextView)
   private val heightValueView: TextView by bindView(R.id.imageHeightValueTextView)
   private val viewCountValueView: TextView by bindView(R.id.viewCountValueTextView)
@@ -24,7 +23,8 @@ class DetailsView(
   private val imageView: ImageView by bindView(R.id.imageDetailsImageView)
 
   fun display(pokemon: Pokemon) {
-    titleView.text = pokemon.name
+    val displayable = PokemonDisplayable(pokemon)
+    titleView.text = displayable.title
 //    imageData.dateTime
 //        ?.let { imageTimeInSeconds ->
 //          val timeAgo: CharSequence = DateUtils.getRelativeTimeSpanString(imageTimeInSeconds * 1000)
@@ -33,11 +33,11 @@ class DetailsView(
 //    widthValueView.text = "${imageData.width} px"
 //    heightValueView.text = "${imageData.height} px"
 //    viewCountValueView.text = imageData.views.toString()
-//    detailTextOverlayView
-//        .background.mutate()
-//        .alpha = 200
-//    Picasso.get()
-//        .load(imageData.imageUrl)
-//        .into(imageView)
+    detailTextOverlayView
+        .background.mutate()
+        .alpha = 200
+    Picasso.get()
+        .load(displayable.imageURL)
+        .into(imageView)
    }
 }

@@ -44,9 +44,10 @@ class MyRecyclerViewAdapter :
     position: Int
   ) {
     val pokemon = myDataset[position]
-    holder.titleTextView.text = pokemon.name.toUpperCase()
+    val displayable = PokemonDisplayable(pokemon)
+    holder.titleTextView.text = displayable.title
     Picasso.get()
-        .load(pokemon.imageURL())
+        .load(displayable.imageURL)
         .into(holder.imageView)
 
     holder.view.setOnClickListener {

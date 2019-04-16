@@ -9,7 +9,7 @@
       android:id="@+id/imageDetailsImageView"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:scaleType="centerCrop"
+      android:scaleType="fitCenter"
       />
 
   <View
@@ -42,20 +42,6 @@
       android:textColor="@android:color/white"
       android:textSize="20sp"
       android:textStyle="bold"
-      app:layout_constraintBottom_toTopOf="@+id/timeAgoValueTextView"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      />
-
-  <TextView
-      android:id="@+id/timeAgoValueTextView"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="16dp"
-      android:layout_marginLeft="16dp"
-      android:layout_marginRight="16dp"
-      android:textColor="@android:color/white"
-      android:textSize="18sp"
       app:layout_constraintBottom_toTopOf="@+id/imageWidthTitleTextView"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
