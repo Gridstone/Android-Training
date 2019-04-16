@@ -50,8 +50,6 @@ class ListController : Controller() {
       loadData()
     }
 
-    loadData()
-
     return view
   }
 
