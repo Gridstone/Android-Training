@@ -28,7 +28,15 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       app:barrierDirection="end"
-      app:constraint_referenced_ids="imageWidthTitleTextView, imageHeightTitleTextView, viewCountTitleTextView"
+      app:constraint_referenced_ids="attackTitleTextView, defenseTitleTextView, speedTitleTextView"
+      />
+
+  <androidx.constraintlayout.widget.Barrier
+      android:id="@+id/secondBarrier"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:barrierDirection="start"
+      app:constraint_referenced_ids="specialAttackValueTextView, specialDefenseValueTextView, hpValueTextView"
       />
 
   <TextView
@@ -42,71 +50,71 @@
       android:textColor="@android:color/white"
       android:textSize="20sp"
       android:textStyle="bold"
-      app:layout_constraintBottom_toTopOf="@+id/imageWidthTitleTextView"
+      app:layout_constraintBottom_toTopOf="@+id/attackTitleTextView"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       />
 
   <TextView
-      android:id="@+id/imageWidthTitleTextView"
+      android:id="@+id/attackTitleTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
       android:layout_marginStart="16dp"
-      android:text="Width"
+      android:text="Attack"
       android:textColor="@android:color/white"
-      app:layout_constraintBottom_toTopOf="@+id/imageHeightTitleTextView"
+      app:layout_constraintBottom_toTopOf="@+id/defenseTitleTextView"
       app:layout_constraintStart_toStartOf="parent"
       />
 
   <TextView
-      android:id="@+id/imageWidthValueTextView"
+      android:id="@+id/attackValueTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
       android:layout_marginStart="16dp"
       android:textColor="@android:color/white"
-      app:layout_constraintBottom_toTopOf="@+id/imageHeightValueTextView"
+      app:layout_constraintBottom_toTopOf="@+id/defenseValueTextView"
       app:layout_constraintStart_toEndOf="@+id/barrier"
       />
 
   <TextView
-      android:id="@+id/imageHeightTitleTextView"
+      android:id="@+id/defenseTitleTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
       android:layout_marginStart="16dp"
-      android:text="Height"
+      android:text="Defense"
       android:textColor="@android:color/white"
-      app:layout_constraintBottom_toTopOf="@id/viewCountTitleTextView"
+      app:layout_constraintBottom_toTopOf="@id/speedTitleTextView"
       app:layout_constraintStart_toStartOf="parent"
       />
 
   <TextView
-      android:id="@+id/imageHeightValueTextView"
+      android:id="@+id/defenseValueTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
       android:layout_marginStart="16dp"
       android:textColor="@android:color/white"
-      app:layout_constraintBottom_toTopOf="@+id/viewCountValueTextView"
+      app:layout_constraintBottom_toTopOf="@+id/speedValueTextView"
       app:layout_constraintStart_toEndOf="@+id/barrier"
       />
 
   <TextView
-      android:id="@+id/viewCountTitleTextView"
+      android:id="@+id/speedTitleTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
       android:layout_marginStart="16dp"
-      android:text="View Count"
+      android:text="Speed"
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       />
 
   <TextView
-      android:id="@+id/viewCountValueTextView"
+      android:id="@+id/speedValueTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="16dp"
@@ -114,5 +122,74 @@
       android:textColor="@android:color/white"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toEndOf="@+id/barrier"
+      />
+
+  <TextView
+      android:id="@+id/specialAttackTitleTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="16dp"
+      android:layout_marginEnd="16dp"
+      android:text="Sp. Attack"
+      android:textColor="@android:color/white"
+      app:layout_constraintBottom_toTopOf="@+id/specialDefenseTitleTextView"
+      app:layout_constraintEnd_toStartOf="@id/secondBarrier"
+      />
+
+  <TextView
+      android:id="@+id/specialAttackValueTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="16dp"
+      android:layout_marginEnd="16dp"
+      android:textColor="@android:color/white"
+      app:layout_constraintBottom_toTopOf="@+id/specialDefenseValueTextView"
+      app:layout_constraintEnd_toEndOf="parent"
+      />
+
+  <TextView
+      android:id="@+id/specialDefenseTitleTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="16dp"
+      android:layout_marginEnd="16dp"
+      android:text="Sp. Defense"
+      android:textColor="@android:color/white"
+      app:layout_constraintBottom_toTopOf="@id/hpTitleTextView"
+      app:layout_constraintEnd_toStartOf="@id/secondBarrier"
+      />
+
+  <TextView
+      android:id="@+id/specialDefenseValueTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="16dp"
+      android:layout_marginEnd="16dp"
+      android:textColor="@android:color/white"
+      app:layout_constraintBottom_toTopOf="@+id/hpValueTextView"
+      app:layout_constraintEnd_toEndOf="parent"
+      />
+
+  <TextView
+      android:id="@+id/hpTitleTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="16dp"
+      android:layout_marginEnd="16dp"
+      android:text="HP"
+      android:textColor="@android:color/white"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/secondBarrier"
+      />
+
+  <TextView
+      android:id="@+id/hpValueTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="16dp"
+      android:layout_marginEnd="16dp"
+      android:textColor="@android:color/white"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
       />
 </au.com.gridstone.trainingkotlin.DetailsView>

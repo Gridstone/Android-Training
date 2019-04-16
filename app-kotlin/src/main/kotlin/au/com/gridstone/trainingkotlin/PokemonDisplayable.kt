@@ -17,9 +17,9 @@ class PokemonDisplayable(val pokemon: Pokemon) {
       return statForType("attack")?.toString() ?: "-"
     }
 
-  val defenceValue: String
+  val defenseValue: String
     get() {
-      return statForType("defence")?.toString() ?: "-"
+      return statForType("defense")?.toString() ?: "-"
     }
 
   val specialAttackValue: String
@@ -27,9 +27,9 @@ class PokemonDisplayable(val pokemon: Pokemon) {
       return statForType("special-attack")?.toString() ?: "-"
     }
 
-  val specialDefenceValue: String
+  val specialDefenseValue: String
     get() {
-      return statForType("special-defence")?.toString() ?: "-"
+      return statForType("special-defense")?.toString() ?: "-"
     }
 
   val speedValue: String

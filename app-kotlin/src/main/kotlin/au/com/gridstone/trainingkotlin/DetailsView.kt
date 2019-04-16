@@ -1,7 +1,6 @@
 package au.com.gridstone.trainingkotlin
 
 import android.content.Context
-import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -16,23 +15,24 @@ class DetailsView(
 ) : ConstraintLayout(context, attrs) {
 
   private val titleView: TextView by bindView(R.id.imageDetailsTitleTextView)
-  private val widthValueView: TextView by bindView(R.id.imageWidthValueTextView)
-  private val heightValueView: TextView by bindView(R.id.imageHeightValueTextView)
-  private val viewCountValueView: TextView by bindView(R.id.viewCountValueTextView)
+  private val attackValueTextView: TextView by bindView(R.id.attackValueTextView)
+  private val defenceValueTextView: TextView by bindView(R.id.defenseValueTextView)
+  private val speedValueTextView: TextView by bindView(R.id.speedValueTextView)
+  private val specialAttackValueTextView: TextView by bindView(R.id.specialAttackValueTextView)
+  private val specialDefenseValueTextView: TextView by bindView(R.id.specialDefenseValueTextView)
+  private val hpValueTextView: TextView by bindView(R.id.hpValueTextView)
   private val detailTextOverlayView: View by bindView(R.id.detailTextOverlayView)
   private val imageView: ImageView by bindView(R.id.imageDetailsImageView)
 
   fun display(pokemon: Pokemon) {
     val displayable = PokemonDisplayable(pokemon)
     titleView.text = displayable.title
-//    imageData.dateTime
-//        ?.let { imageTimeInSeconds ->
-//          val timeAgo: CharSequence = DateUtils.getRelativeTimeSpanString(imageTimeInSeconds * 1000)
-//          timeAgoView.text = timeAgo
-//        }
-//    widthValueView.text = "${imageData.width} px"
-//    heightValueView.text = "${imageData.height} px"
-//    viewCountValueView.text = imageData.views.toString()
+    attackValueTextView.text = displayable.attackValue
+    defenceValueTextView.text = displayable.defenseValue
+    speedValueTextView.text = displayable.speedValue
+    specialAttackValueTextView.text = displayable.specialAttackValue
+    specialDefenseValueTextView.text = displayable.specialDefenseValue
+    hpValueTextView.text = displayable.hpValue
     detailTextOverlayView
         .background.mutate()
         .alpha = 200
