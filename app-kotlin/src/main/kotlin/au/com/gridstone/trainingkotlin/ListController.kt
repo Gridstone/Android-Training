@@ -60,7 +60,7 @@ class ListController : Controller() {
     loadData()
   }
 
-  private fun populateResults(data: List<ImageData>) {
+  private fun populateResults(data: List<Pokemon>) {
     view?.findViewById<RecyclerView>(R.id.my_recycler_view)
         ?.let { recyclerView ->
           (recyclerView.adapter as MyRecyclerViewAdapter).set(data)
@@ -73,9 +73,9 @@ class ListController : Controller() {
   }
 
   private fun loadData() {
-    APIManager.getImages(useCached = true) { imageData ->
+    APIManager.getPokemon(useCached = true) { pokemonList ->
       // Populate results and disable refresh animation if required
-      populateResults(imageData)
+      populateResults(pokemonList)
       swipeRefreshLayout.isRefreshing = false
     }
   }

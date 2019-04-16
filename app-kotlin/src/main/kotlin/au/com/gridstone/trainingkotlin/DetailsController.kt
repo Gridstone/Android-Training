@@ -8,11 +8,11 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import java.lang.IllegalArgumentException
 
-private const val KEY_IMAGE_ID = "image_id"
+private const val POKEMON_ID = "pokemon_id"
 
 class DetailsController(args: Bundle) : Controller(args) {
 
-  constructor(id: String) : this(bundleOf(KEY_IMAGE_ID to id))
+  constructor(id: Int) : this(bundleOf(POKEMON_ID to id))
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -26,12 +26,10 @@ class DetailsController(args: Bundle) : Controller(args) {
 
     if (view !is DetailsView) throw IllegalArgumentException()
 
-    args.getString(KEY_IMAGE_ID)
-        ?.let { id ->
-          APIManager.getCachedImageForID(id)
-              ?.let { imageData ->
-                view.display(imageData)
-              }
+    val id = args.getInt(POKEMON_ID)
+    APIManager.getCachedPokemonForID(id)
+        ?.let { pokemon ->
+          view.display(pokemon)
         }
   }
 }

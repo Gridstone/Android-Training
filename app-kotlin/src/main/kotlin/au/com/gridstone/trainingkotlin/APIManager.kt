@@ -3,87 +3,110 @@ package au.com.gridstone.trainingkotlin
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.Retrofit
-import com.google.gson.annotations.SerializedName
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Headers
-import java.io.Serializable
+import retrofit2.http.Path
 
-data class ImageData(
-  val id: String?,
-  val title: String = "-",
-  @SerializedName("is_album") val isAlbum: Boolean = false,
-  val type: String?,
-  @SerializedName("link") val imageUrl: String?,
-  val views: Int = 0,
-  val width: Int = 0,
-  val height: Int = 0,
-  @SerializedName("datetime") val dateTime: Long?
+data class Pokemon(
+  val id: Int,
+  val name: String
+) {
+  fun imageURL(): String {
+    val formattedID = String.format("%03d", id)
+    return "https://assets.pokemon.com/assets/cms2/img/pokedex/full/$formattedID.png"
+  }
+}
+
+data class PokemonSummary(
+  val name: String,
+  val url: String
 )
 
-data class ImageDataResponse(
-  val data: List<ImageData>
+data class PokemonBaseResponse(
+  val results: List<PokemonSummary>
 )
 
-interface ImgurService {
-  @Headers("Authorization: Client-ID 3436c108ccc17d3")
-  @GET("3/gallery/hot/viral")
-  fun getImages(): Call<ImageDataResponse>
+interface PokemonListService {
+  @GET("pokemon?limit=151")
+  fun getPokemonList(): Call<PokemonBaseResponse>
+}
+
+interface PokemonDetailsService {
+  @GET("pokemon/{name}")
+  fun getPokemon(@Path("name") user: String): Call<Pokemon>
 }
 
 object APIManager {
 
   private val retrofit = Retrofit.Builder()
-      .baseUrl("https://api.imgur.com/")
+      .baseUrl("https://pokeapi.co/api/v2/")
       .addConverterFactory(GsonConverterFactory.create())
       .build()
 
-  val service: ImgurService = retrofit.create<ImgurService>(ImgurService::class.java)
+  val listService: PokemonListService = retrofit.create(PokemonListService::class.java)
 
-  private var cachedImageData: List<ImageData>? = null
+  val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
 
-  fun getImages(
+  private var cachedPokemon: List<Pokemon>? = null
+
+  fun getCachedPokemonForID(id: Int): Pokemon? {
+    return cachedPokemon?.first { pokemon ->
+      pokemon.id == id
+    }
+  }
+
+  fun getPokemon(
     useCached: Boolean,
-    callback: (items: List<ImageData>) -> Unit
+    callback: (pokemon: List<Pokemon>) -> Unit
   ) {
     if (useCached) {
-      cachedImageData?.let {
-        callback(it)
+      cachedPokemon?.let { pokemon ->
+        callback(pokemon)
         return
       }
     }
 
-    service.getImages()
-        .enqueue(object : Callback<ImageDataResponse> {
+    listService.getPokemonList()
+        .enqueue(object : Callback<PokemonBaseResponse> {
           override fun onResponse(
-            call: Call<ImageDataResponse>,
-            response: Response<ImageDataResponse>
+            call: Call<PokemonBaseResponse>,
+            response: Response<PokemonBaseResponse>
           ) {
             response.body()
-                ?.data?.let { data ->
-              val filteredResults = filteredResults(data)
-              cachedImageData = filteredResults
-              callback(filteredResults)
+                ?.results?.let { results ->
+              val pokemonToReturn: ArrayList<Pokemon> = ArrayList()
+              results.forEach { result ->
+                detailsService.getPokemon(result.name)
+                    .enqueue(object : Callback<Pokemon> {
+                      override fun onResponse(
+                        call: Call<Pokemon>,
+                        response: Response<Pokemon>
+                      ) {
+                        response.body()
+                            ?.let { pokemon ->
+                              pokemonToReturn.add(pokemon)
+                              val sortedPokemon = pokemonToReturn.sortedWith(compareBy { it.id })
+                              cachedPokemon = sortedPokemon
+                              callback(sortedPokemon)
+                            }
+                      }
+
+                      override fun onFailure(
+                        call: Call<Pokemon>,
+                        t: Throwable
+                      ) {
+                      }
+                    })
+              }
             }
           }
 
           override fun onFailure(
-            call: Call<ImageDataResponse>,
+            call: Call<PokemonBaseResponse>,
             t: Throwable
           ) {
           }
         })
-  }
-
-  fun getCachedImageForID(id: String): ImageData? {
-    return cachedImageData?.first { data ->
-      data.id == id
-    }
-  }
-
-  private fun filteredResults(results: List<ImageData>): List<ImageData> {
-    return results.filter { !it.isAlbum }
-        .filter { it.type == "image/jpeg" || it.type == "image/png" }
   }
 }

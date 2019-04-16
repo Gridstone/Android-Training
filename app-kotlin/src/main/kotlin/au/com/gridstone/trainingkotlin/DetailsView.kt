@@ -23,21 +23,21 @@ class DetailsView(
   private val detailTextOverlayView: View by bindView(R.id.detailTextOverlayView)
   private val imageView: ImageView by bindView(R.id.imageDetailsImageView)
 
-  fun display(imageData: ImageData) {
-    titleView.text = imageData.title
-    imageData.dateTime
-        ?.let { imageTimeInSeconds ->
-          val timeAgo: CharSequence = DateUtils.getRelativeTimeSpanString(imageTimeInSeconds * 1000)
-          timeAgoView.text = timeAgo
-        }
-    widthValueView.text = "${imageData.width} px"
-    heightValueView.text = "${imageData.height} px"
-    viewCountValueView.text = imageData.views.toString()
-    detailTextOverlayView
-        .background.mutate()
-        .alpha = 200
-    Picasso.get()
-        .load(imageData.imageUrl)
-        .into(imageView)
-  }
+  fun display(pokemon: Pokemon) {
+    titleView.text = pokemon.name
+//    imageData.dateTime
+//        ?.let { imageTimeInSeconds ->
+//          val timeAgo: CharSequence = DateUtils.getRelativeTimeSpanString(imageTimeInSeconds * 1000)
+//          timeAgoView.text = timeAgo
+//        }
+//    widthValueView.text = "${imageData.width} px"
+//    heightValueView.text = "${imageData.height} px"
+//    viewCountValueView.text = imageData.views.toString()
+//    detailTextOverlayView
+//        .background.mutate()
+//        .alpha = 200
+//    Picasso.get()
+//        .load(imageData.imageUrl)
+//        .into(imageView)
+   }
 }

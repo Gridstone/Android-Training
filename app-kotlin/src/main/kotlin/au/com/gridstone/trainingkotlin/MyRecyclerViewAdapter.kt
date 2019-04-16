@@ -12,9 +12,9 @@ import com.squareup.picasso.Picasso
 class MyRecyclerViewAdapter :
     RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
-  var tapHandler: ((imageId: String) -> Unit)? = null
+  var tapHandler: ((id: Int) -> Unit)? = null
 
-  private lateinit var myDataset: List<ImageData>
+  private lateinit var myDataset: List<Pokemon>
 
   class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
     val titleTextView = view.findViewById<TextView>(R.id.imageListTitle)
@@ -26,7 +26,7 @@ class MyRecyclerViewAdapter :
     val imageView = view.findViewById<ImageView>(R.id.imageListImageView)
   }
 
-  fun set(data: List<ImageData>) {
+  fun set(data: List<Pokemon>) {
     myDataset = data
   }
 
@@ -43,17 +43,14 @@ class MyRecyclerViewAdapter :
     holder: MyViewHolder,
     position: Int
   ) {
-    val imageData = myDataset[position]
-    holder.titleTextView.text = imageData.title
+    val pokemon = myDataset[position]
+    holder.titleTextView.text = pokemon.name.toUpperCase()
     Picasso.get()
-        .load(imageData.imageUrl)
+        .load(pokemon.imageURL())
         .into(holder.imageView)
 
     holder.view.setOnClickListener {
-      imageData.id
-          ?.let { id ->
-            tapHandler?.invoke(id)
-          }
+      tapHandler?.invoke(pokemon.id)
     }
   }
 
