@@ -25,7 +25,7 @@ class DetailsView(
   private val imageView: ImageView by bindView(R.id.imageDetailsImageView)
 
   fun display(pokemon: Pokemon) {
-    val displayable = PokemonDisplayable(pokemon)
+    val displayable = PokemonDetailsDisplayable(pokemon)
     titleView.text = displayable.title
     attackValueTextView.text = displayable.attackValue
     defenceValueTextView.text = displayable.defenseValue

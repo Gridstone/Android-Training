@@ -33,7 +33,7 @@ class MyRecyclerViewAdapter :
   override fun onCreateViewHolder(
     parent: ViewGroup,
     viewType: Int
-  ): MyRecyclerViewAdapter.MyViewHolder {
+  ): MyViewHolder {
     val row = LayoutInflater.from(parent.context)
         .inflate(R.layout.recyclerview_row, parent, false) as FrameLayout
     return MyViewHolder(row)
@@ -46,7 +46,7 @@ class MyRecyclerViewAdapter :
     val pokemon = myDataset[position]
     // Assume that the pokemon's ID is their position in the array plus one, as the endpoint does not give ID alongside name.
     val id: Int = position + 1
-    val displayable = PokemonListDisplayble(pokemon, id)
+    val displayable = PokemonDisplayble(pokemon.name, id)
     holder.titleTextView.text = displayable.title
     Picasso.get()
         .load(displayable.imageURL)

@@ -10,7 +10,6 @@ import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.Dictionary
 
 data class Stat(
   val name: String
@@ -29,8 +28,7 @@ data class Pokemon(
 )
 
 data class PokemonSummary(
-  val name: String,
-  val url: String
+  val name: String
 )
 
 data class PokemonBaseResponse(
