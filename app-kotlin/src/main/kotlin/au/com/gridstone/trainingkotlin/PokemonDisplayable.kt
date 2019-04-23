@@ -1,5 +1,14 @@
 package au.com.gridstone.trainingkotlin
 
+open class PokemonDisplayble(name: String, id: Int) {
+  val title: String = name.capitalize()
+  val imageURL: String
+
+  init {
+    val formattedID = String.format("%03d", id)
+    imageURL = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/$formattedID.png"
+  }
+}
 
 class PokemonDetailsDisplayable(pokemon: Pokemon): PokemonDisplayble(pokemon.name, pokemon.id) {
   val attackValue: String
@@ -27,15 +36,5 @@ class PokemonDetailsDisplayable(pokemon: Pokemon): PokemonDisplayble(pokemon.nam
     specialDefenseValue = stringForStat("special-defense")
     speedValue = stringForStat("speed")
     hpValue = stringForStat("hp")
-  }
-}
-
-open class PokemonDisplayble(name: String, id: Int) {
-  val title: String = name.capitalize()
-  val imageURL: String
-
-  init {
-    val formattedID = String.format("%03d", id)
-    imageURL = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/$formattedID.png"
   }
 }
