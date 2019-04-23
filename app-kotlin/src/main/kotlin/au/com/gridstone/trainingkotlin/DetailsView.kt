@@ -3,17 +3,22 @@ package au.com.gridstone.trainingkotlin
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import au.com.gridstone.robocop.utils.bindView
 import com.squareup.picasso.Picasso
 
 class DetailsView(
   context: Context,
   attrs: AttributeSet
-) : ConstraintLayout(context, attrs) {
+) : FrameLayout(context, attrs) {
 
+  private val progessBar: ProgressBar by bindView(R.id.details_progress_bar)
+  private val detailsSection: ConstraintLayout by bindView(R.id.detailsSection)
   private val titleView: TextView by bindView(R.id.imageDetailsTitleTextView)
   private val attackValueTextView: TextView by bindView(R.id.attackValueTextView)
   private val defenceValueTextView: TextView by bindView(R.id.defenseValueTextView)
@@ -39,5 +44,7 @@ class DetailsView(
     Picasso.get()
         .load(displayable.imageURL)
         .into(imageView)
+    progessBar.isVisible = false
+    detailsSection.isVisible = true
    }
 }
