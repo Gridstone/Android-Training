@@ -14,7 +14,7 @@ class MyRecyclerViewAdapter :
 
   var tapHandler: ((id: Int) -> Unit)? = null
 
-  private lateinit var myDataset: List<Pokemon>
+  private lateinit var myDataset: List<PokemonSummary>
 
   class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
     val titleTextView = view.findViewById<TextView>(R.id.imageListTitle)
@@ -26,7 +26,7 @@ class MyRecyclerViewAdapter :
     val imageView = view.findViewById<ImageView>(R.id.imageListImageView)
   }
 
-  fun set(data: List<Pokemon>) {
+  fun set(data: List<PokemonSummary>) {
     myDataset = data
   }
 
@@ -44,14 +44,16 @@ class MyRecyclerViewAdapter :
     position: Int
   ) {
     val pokemon = myDataset[position]
-    val displayable = PokemonDisplayable(pokemon)
+    // Assume that the pokemon's ID is their position in the array plus one, as the endpoint does not give ID alongside name.
+    val id: Int = position + 1
+    val displayable = PokemonListDisplayble(pokemon, id)
     holder.titleTextView.text = displayable.title
     Picasso.get()
         .load(displayable.imageURL)
         .into(holder.imageView)
 
     holder.view.setOnClickListener {
-      tapHandler?.invoke(pokemon.id)
+      tapHandler?.invoke(id)
     }
   }
 

@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import com.bluelinelabs.conductor.Controller
 import android.os.Bundle
 import androidx.core.os.bundleOf
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import java.lang.IllegalArgumentException
 
 private const val POKEMON_ID = "pokemon_id"
@@ -27,9 +29,17 @@ class DetailsController(args: Bundle) : Controller(args) {
     if (view !is DetailsView) throw IllegalArgumentException()
 
     val id = args.getInt(POKEMON_ID)
-    APIManager.getCachedPokemonForID(id)
-        ?.let { pokemon ->
-          view.display(pokemon)
-        }
+
+    APIManager.getPokemon(id,
+        object : Observer<Pokemon> {
+          override fun onSubscribe(d: Disposable) {}
+          override fun onNext(t: Pokemon) {
+            view.display(t)
+          }
+
+          override fun onError(e: Throwable) {}
+
+          override fun onComplete() {}
+        })
   }
 }

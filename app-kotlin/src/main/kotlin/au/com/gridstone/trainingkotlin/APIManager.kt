@@ -1,14 +1,16 @@
 package au.com.gridstone.trainingkotlin
 
 import com.google.gson.annotations.SerializedName
-import retrofit2.Call
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.GET
 import retrofit2.Retrofit
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Path
-
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.util.Dictionary
 
 data class Stat(
   val name: String
@@ -27,7 +29,8 @@ data class Pokemon(
 )
 
 data class PokemonSummary(
-  val name: String
+  val name: String,
+  val url: String
 )
 
 data class PokemonBaseResponse(
@@ -36,12 +39,12 @@ data class PokemonBaseResponse(
 
 interface PokemonListService {
   @GET("pokemon?limit=151")
-  fun getPokemonList(): Call<PokemonBaseResponse>
+  fun getPokemonList(): Observable<PokemonBaseResponse>
 }
 
 interface PokemonDetailsService {
-  @GET("pokemon/{name}")
-  fun getPokemon(@Path("name") user: String): Call<Pokemon>
+  @GET("pokemon/{id}")
+  fun getPokemon(@Path("id") id: Int): Observable<Pokemon>
 }
 
 object APIManager {
@@ -49,71 +52,61 @@ object APIManager {
   private val retrofit = Retrofit.Builder()
       .baseUrl("https://pokeapi.co/api/v2/")
       .addConverterFactory(GsonConverterFactory.create())
+      .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       .build()
 
   val listService: PokemonListService = retrofit.create(PokemonListService::class.java)
 
   val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
 
-  private var cachedPokemon: List<Pokemon>? = null
+  private val listObservable = listService.getPokemonList()
+      .cache()
+      .subscribeOn(Schedulers.io())
+      .doOnNext { response ->
+        cachedPokemonSummaries = response
+      }
+      .observeOn(AndroidSchedulers.mainThread())
 
-  fun getCachedPokemonForID(id: Int): Pokemon? {
-    return cachedPokemon?.first { pokemon ->
-      pokemon.id == id
+  private var cachedPokemonSummaries: PokemonBaseResponse? = null
+
+  private var cachedPokemon = mutableMapOf<Int, Pokemon>()
+
+  fun getPokemonList(subscriber: Observer<PokemonBaseResponse>): Observable<PokemonBaseResponse> {
+
+    cachedPokemonSummaries?.let { summaries ->
+      val observable: Observable<PokemonBaseResponse> = Observable.just(summaries)
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+      observable.subscribe(subscriber)
+      return observable
     }
+
+    listObservable.subscribe(subscriber)
+    return listObservable
   }
 
   fun getPokemon(
-    useCached: Boolean,
-    callback: (pokemon: List<Pokemon>) -> Unit
-  ) {
-    if (useCached) {
-      cachedPokemon?.let { pokemon ->
-        callback(pokemon)
-        return
-      }
+    id: Int,
+    subscriber: Observer<Pokemon>
+  ): Observable<Pokemon> {
+
+    cachedPokemon[id]?.let { pokemon ->
+      val observable = Observable.just(pokemon)
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+      observable.subscribe(subscriber)
+      return observable
     }
 
-    listService.getPokemonList()
-        .enqueue(object : Callback<PokemonBaseResponse> {
-          override fun onResponse(
-            call: Call<PokemonBaseResponse>,
-            response: Response<PokemonBaseResponse>
-          ) {
-            response.body()
-                ?.results?.let { results ->
-              val pokemonToReturn: ArrayList<Pokemon> = ArrayList()
-              results.forEach { result ->
-                detailsService.getPokemon(result.name)
-                    .enqueue(object : Callback<Pokemon> {
-                      override fun onResponse(
-                        call: Call<Pokemon>,
-                        response: Response<Pokemon>
-                      ) {
-                        response.body()
-                            ?.let { pokemon ->
-                              pokemonToReturn.add(pokemon)
-                              val sortedPokemon = pokemonToReturn.sortedWith(compareBy { it.id })
-                              cachedPokemon = sortedPokemon
-                              callback(sortedPokemon)
-                            }
-                      }
+    val observable = detailsService.getPokemon(id)
+        .subscribeOn(Schedulers.io())
+        .doOnNext { pokemon ->
+          cachedPokemon[id] = pokemon
+        }
+        .observeOn(AndroidSchedulers.mainThread())
 
-                      override fun onFailure(
-                        call: Call<Pokemon>,
-                        t: Throwable
-                      ) {
-                      }
-                    })
-              }
-            }
-          }
+    observable.subscribe(subscriber)
 
-          override fun onFailure(
-            call: Call<PokemonBaseResponse>,
-            t: Throwable
-          ) {
-          }
-        })
+    return observable
   }
 }

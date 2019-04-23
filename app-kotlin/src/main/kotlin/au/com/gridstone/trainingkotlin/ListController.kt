@@ -11,6 +11,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 
 class ListController : Controller() {
 
@@ -58,7 +60,7 @@ class ListController : Controller() {
     loadData()
   }
 
-  private fun populateResults(data: List<Pokemon>) {
+  private fun populateResults(data: List<PokemonSummary>) {
     view?.findViewById<RecyclerView>(R.id.my_recycler_view)
         ?.let { recyclerView ->
           (recyclerView.adapter as MyRecyclerViewAdapter).set(data)
@@ -66,15 +68,23 @@ class ListController : Controller() {
           recyclerView.isVisible = true
           view?.findViewById<ProgressBar>(R.id.list_progress_bar)
               ?.isVisible = false
-
         }
   }
 
   private fun loadData() {
-    APIManager.getPokemon(useCached = true) { pokemonList ->
-      // Populate results and disable refresh animation if required
-      populateResults(pokemonList)
-      swipeRefreshLayout.isRefreshing = false
-    }
+      APIManager.getPokemonList(
+          object : Observer<PokemonBaseResponse> {
+            override fun onSubscribe(d: Disposable) {}
+
+            override fun onNext(t: PokemonBaseResponse) {
+              populateResults(t.results)
+              swipeRefreshLayout.isRefreshing = false
+            }
+
+            override fun onError(e: Throwable) {}
+
+            override fun onComplete() {}
+          }
+      )
   }
 }

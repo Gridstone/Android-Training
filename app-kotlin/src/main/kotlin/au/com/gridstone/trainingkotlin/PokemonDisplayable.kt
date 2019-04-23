@@ -35,3 +35,13 @@ class PokemonDisplayable(pokemon: Pokemon) {
     imageURL = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/$formattedID.png"
   }
 }
+
+class PokemonListDisplayble(pokemon: PokemonSummary, id: Int) {
+  val title: String = pokemon.name.capitalize()
+  val imageURL: String
+
+  init {
+    val formattedID = String.format("%03d", id)
+    imageURL = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/$formattedID.png"
+  }
+}
