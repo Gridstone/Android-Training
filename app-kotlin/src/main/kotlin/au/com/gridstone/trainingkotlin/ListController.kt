@@ -17,6 +17,7 @@ import io.reactivex.disposables.Disposable
 class ListController : Controller() {
 
   private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+  private var savedPokemonList: List<PokemonSummary>? = null
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -72,12 +73,18 @@ class ListController : Controller() {
   }
 
   private fun loadData() {
+
+    savedPokemonList?.let { pokenon ->
+      populateResults(pokenon)
+      swipeRefreshLayout.isRefreshing = false
+    } ?: run {
       APIManager.getPokemonList(
           object : Observer<PokemonBaseResponse> {
             override fun onSubscribe(d: Disposable) {}
 
             override fun onNext(t: PokemonBaseResponse) {
               populateResults(t.results)
+              savedPokemonList = t.results
               swipeRefreshLayout.isRefreshing = false
             }
 
@@ -86,5 +93,6 @@ class ListController : Controller() {
             override fun onComplete() {}
           }
       )
+    }
   }
 }
