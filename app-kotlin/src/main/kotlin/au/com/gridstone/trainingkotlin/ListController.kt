@@ -4,15 +4,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import au.com.gridstone.trainingkotlin.ListState.ERROR
+import au.com.gridstone.trainingkotlin.ListState.LOADING
+import au.com.gridstone.trainingkotlin.ListState.RESULTS
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+
+enum class ListState {
+  LOADING,
+  RESULTS,
+  ERROR
+}
 
 class ListController : Controller() {
 
@@ -61,14 +71,39 @@ class ListController : Controller() {
     loadData()
   }
 
+  private fun showState(listState: ListState) {
+
+    // Assume that whenever we are showing a state, we no longer want to show the refresh indicator
+    swipeRefreshLayout.isRefreshing = false
+
+    val progressBar: ProgressBar? = view?.findViewById(R.id.list_progress_bar)
+    val recyclerView: RecyclerView? = view?.findViewById(R.id.my_recycler_view)
+    val errorTextView: TextView? = view?.findViewById(R.id.errorTextView)
+    when (listState) {
+      LOADING -> {
+        progressBar?.isVisible = true
+        recyclerView?.isVisible = false
+        errorTextView?.isVisible = false
+      }
+      RESULTS -> {
+        progressBar?.isVisible = false
+        recyclerView?.isVisible = true
+        errorTextView?.isVisible = false
+      }
+      ERROR -> {
+        progressBar?.isVisible = false
+        recyclerView?.isVisible = false
+        errorTextView?.isVisible = true
+      }
+    }
+  }
+
   private fun populateResults(data: List<PokemonSummary>) {
     view?.findViewById<RecyclerView>(R.id.my_recycler_view)
         ?.let { recyclerView ->
           (recyclerView.adapter as MyRecyclerViewAdapter).set(data)
           recyclerView.adapter?.notifyDataSetChanged()
-          recyclerView.isVisible = true
-          view?.findViewById<ProgressBar>(R.id.list_progress_bar)
-              ?.isVisible = false
+          showState(RESULTS)
         }
   }
 
@@ -76,7 +111,6 @@ class ListController : Controller() {
 
     savedPokemonList?.let { pokenon ->
       populateResults(pokenon)
-      swipeRefreshLayout.isRefreshing = false
     } ?: run {
       APIManager.getPokemonList(
           object : Observer<PokemonBaseResponse> {
@@ -85,10 +119,12 @@ class ListController : Controller() {
             override fun onNext(t: PokemonBaseResponse) {
               populateResults(t.results)
               savedPokemonList = t.results
-              swipeRefreshLayout.isRefreshing = false
             }
 
-            override fun onError(e: Throwable) {}
+            override fun onError(e: Throwable) {
+              showState(ERROR)
+              view?.findViewById<TextView>(R.id.errorTextView)?.text = e.localizedMessage
+            }
 
             override fun onComplete() {}
           }

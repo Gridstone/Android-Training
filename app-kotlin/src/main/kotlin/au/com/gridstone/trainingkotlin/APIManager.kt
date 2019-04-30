@@ -58,7 +58,6 @@ object APIManager {
   val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
 
   private val listObservable = listService.getPokemonList()
-      .cache()
       .subscribeOn(Schedulers.io())
       .doOnNext { response ->
         cachedPokemonSummaries = response
