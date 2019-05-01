@@ -53,34 +53,17 @@ object APIManager {
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       .build()
 
-  val listService: PokemonListService = retrofit.create(PokemonListService::class.java)
+  private val listService: PokemonListService = retrofit.create(PokemonListService::class.java)
 
-  val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
+  private val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
 
-  private val listObservable = listService.getPokemonList()
+  val listObservable = listService.getPokemonList()
       .subscribeOn(Schedulers.io())
-      .doOnNext { response ->
-        cachedPokemonSummaries = response
-      }
       .observeOn(AndroidSchedulers.mainThread())
-
-  private var cachedPokemonSummaries: PokemonBaseResponse? = null
+      .replay(1)
+      .autoConnect()
 
   private var cachedPokemon = mutableMapOf<Int, Pokemon>()
-
-  fun getPokemonList(subscriber: Observer<PokemonBaseResponse>): Observable<PokemonBaseResponse> {
-
-    cachedPokemonSummaries?.let { summaries ->
-      val observable: Observable<PokemonBaseResponse> = Observable.just(summaries)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-      observable.subscribe(subscriber)
-      return observable
-    }
-
-    listObservable.subscribe(subscriber)
-    return listObservable
-  }
 
   fun getPokemon(
     id: Int,

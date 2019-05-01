@@ -27,7 +27,6 @@ enum class ListState {
 class ListController : Controller() {
 
   private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-  private var savedPokemonList: List<PokemonSummary>? = null
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -108,27 +107,20 @@ class ListController : Controller() {
   }
 
   private fun loadData() {
+    APIManager.listObservable.subscribe(object : Observer<PokemonBaseResponse> {
+      override fun onSubscribe(d: Disposable) {}
 
-    savedPokemonList?.let { pokenon ->
-      populateResults(pokenon)
-    } ?: run {
-      APIManager.getPokemonList(
-          object : Observer<PokemonBaseResponse> {
-            override fun onSubscribe(d: Disposable) {}
+      override fun onNext(t: PokemonBaseResponse) {
+        populateResults(t.results)
+      }
 
-            override fun onNext(t: PokemonBaseResponse) {
-              populateResults(t.results)
-              savedPokemonList = t.results
-            }
+      override fun onError(e: Throwable) {
+        showState(ERROR)
+        view?.findViewById<TextView>(R.id.errorTextView)
+            ?.text = e.localizedMessage
+      }
 
-            override fun onError(e: Throwable) {
-              showState(ERROR)
-              view?.findViewById<TextView>(R.id.errorTextView)?.text = e.localizedMessage
-            }
-
-            override fun onComplete() {}
-          }
-      )
-    }
+      override fun onComplete() {}
+    })
   }
 }
