@@ -17,12 +17,12 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-
+import java.lang.IllegalArgumentException
 
 sealed class PokemonListState {
   object Loading : PokemonListState()
   data class Content(val list: List<PokemonSummary>) : PokemonListState()
-  data class Error(val message: String) : PokemonListState()
+  data class Error(val message: String? = "Unknown Error") : PokemonListState()
 }
 
 class ListController : Controller() {
@@ -33,7 +33,7 @@ class ListController : Controller() {
     inflater: LayoutInflater,
     container: ViewGroup
   ): View {
-    val view = inflater.inflate(R.layout.controller_list, container, false)
+    val view = inflater.inflate(R.layout.view_list, container, false)
     router.activity?.applicationContext?.let { context ->
       val viewAdapter = MyRecyclerViewAdapter()
       viewAdapter.set(ArrayList())
@@ -75,54 +75,17 @@ class ListController : Controller() {
     super.onDetach(view)
   }
 
-  private fun showState(state: PokemonListState) {
-
-    // Assume that whenever we are showing a state, we no longer want to show the refresh indicator
-    swipeRefreshLayout.isRefreshing = false
-
-    val progressBar: ProgressBar? = view?.findViewById(R.id.list_progress_bar)
-    val recyclerView: RecyclerView? = view?.findViewById(R.id.my_recycler_view)
-    val errorTextView: TextView? = view?.findViewById(R.id.errorTextView)
-    when (state) {
-      is Loading -> {
-        progressBar?.isVisible = true
-        recyclerView?.isVisible = false
-        errorTextView?.isVisible = false
-      }
-      is Content -> {
-        progressBar?.isVisible = false
-        recyclerView?.isVisible = true
-        errorTextView?.isVisible = false
-      }
-      is Error -> {
-        progressBar?.isVisible = false
-        recyclerView?.isVisible = false
-        errorTextView?.isVisible = true
-      }
-    }
-  }
-
-  private fun populateResults(data: List<PokemonSummary>) {
-    view?.findViewById<RecyclerView>(R.id.my_recycler_view)
-        ?.let { recyclerView ->
-          (recyclerView.adapter as MyRecyclerViewAdapter).set(data)
-          recyclerView.adapter?.notifyDataSetChanged()
-          showState(Content(data))
-        }
-  }
-
   private fun loadData() {
-    APIManager.listObservable.subscribe(object : Observer<PokemonBaseResponse> {
+
+    APIManager.listObservable.subscribe(object : Observer<PokemonListState> {
       override fun onSubscribe(d: Disposable) {}
 
-      override fun onNext(t: PokemonBaseResponse) {
-        populateResults(t.results)
+      override fun onNext(t: PokemonListState) {
+        (view as ListView).display(t)
       }
 
       override fun onError(e: Throwable) {
-        showState(Error(e.localizedMessage))
-        view?.findViewById<TextView>(R.id.errorTextView)
-            ?.text = e.localizedMessage
+        (view as ListView).display(PokemonListState.Error(e.message))
       }
 
       override fun onComplete() {}

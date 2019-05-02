@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- A RecyclerView with some commonly used attributes -->
-<FrameLayout
+<au.com.gridstone.trainingkotlin.ListView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,5 +37,5 @@
         >
     </androidx.recyclerview.widget.RecyclerView>
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</FrameLayout>
+</au.com.gridstone.trainingkotlin.ListView>
 

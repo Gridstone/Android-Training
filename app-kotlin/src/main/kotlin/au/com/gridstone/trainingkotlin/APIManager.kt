@@ -1,6 +1,8 @@
 package au.com.gridstone.trainingkotlin
 
+import au.com.gridstone.trainingkotlin.PokemonListState.Content
 import com.google.gson.annotations.SerializedName
+import com.jakewharton.retrofit2.adapter.rxjava2.Result
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.GET
 import retrofit2.Retrofit
@@ -8,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Path
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -37,7 +40,7 @@ data class PokemonBaseResponse(
 
 interface PokemonListService {
   @GET("pokemon?limit=151")
-  fun getPokemonList(): Observable<PokemonBaseResponse>
+  fun getPokemonList(): Single<Result<PokemonBaseResponse>>
 }
 
 interface PokemonDetailsService {
@@ -57,7 +60,15 @@ object APIManager {
 
   private val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
 
-  val listObservable = listService.getPokemonList()
+  val listObservable: Observable<PokemonListState> = listService.getPokemonList()
+      .map { result ->
+        if (!result.isError && result.response()?.isSuccessful ?: false) {
+          PokemonListState.Content(result.response().body()!!.results)
+        } else {
+          PokemonListState.Error(result.response()?.errorBody()?.toString() ?: "Unknown error")
+        }
+      }
+      .toObservable()
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .replay(1)
