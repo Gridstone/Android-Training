@@ -1,6 +1,7 @@
 package au.com.gridstone.trainingkotlin
 
 import au.com.gridstone.trainingkotlin.PokemonListState.Content
+import au.com.gridstone.trainingkotlin.PokemonListState.Loading
 import com.google.gson.annotations.SerializedName
 import com.jakewharton.retrofit2.adapter.rxjava2.Result
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -48,6 +49,13 @@ interface PokemonDetailsService {
   fun getPokemon(@Path("id") id: Int): Observable<Pokemon>
 }
 
+sealed class PokemonListResult {
+  object Loading : PokemonListResult()
+  data class Content(val list: List<PokemonSummary>) : PokemonListResult()
+  data class Error(val message: String? = "Unknown Error") : PokemonListResult()
+}
+
+
 object APIManager {
 
   private val retrofit = Retrofit.Builder()
@@ -60,15 +68,16 @@ object APIManager {
 
   private val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
 
-  val listObservable: Observable<PokemonListState> = listService.getPokemonList()
+  val listObservable: Observable<PokemonListResult> = listService.getPokemonList()
       .map { result ->
         if (!result.isError && result.response()?.isSuccessful == true) {
-          PokemonListState.Content(result.response().body()!!.results)
+          PokemonListResult.Content(result.response().body()!!.results)
         } else {
-          PokemonListState.Error(result.response()?.errorBody()?.toString() ?: "Unknown error")
+          PokemonListResult.Error(result.response()?.errorBody()?.toString() ?: "Unknown error")
         }
       }
       .toObservable()
+      .startWith(PokemonListResult.Loading)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .replay(1)

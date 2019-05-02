@@ -9,14 +9,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import au.com.gridstone.trainingkotlin.PokemonListState.Content
-import au.com.gridstone.trainingkotlin.PokemonListState.Loading
-import au.com.gridstone.trainingkotlin.PokemonListState.Error
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import io.reactivex.Observer
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 import java.lang.IllegalArgumentException
 
 sealed class PokemonListState {
@@ -28,6 +27,7 @@ sealed class PokemonListState {
 class ListController : Controller() {
 
   private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+  private var disposable: Disposable = Disposables.disposed()
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -60,6 +60,7 @@ class ListController : Controller() {
 
     swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
     swipeRefreshLayout.setOnRefreshListener {
+      disposable.dispose()
       loadData()
     }
 
@@ -67,28 +68,24 @@ class ListController : Controller() {
   }
 
   override fun onAttach(view: View) {
-    super.onAttach(view)
     loadData()
   }
 
   override fun onDetach(view: View) {
-    super.onDetach(view)
+    disposable.dispose()
   }
 
   private fun loadData() {
-
-    APIManager.listObservable.subscribe(object : Observer<PokemonListState> {
-      override fun onSubscribe(d: Disposable) {}
-
-      override fun onNext(t: PokemonListState) {
-        (view as ListView).display(t)
-      }
-
-      override fun onError(e: Throwable) {
-        (view as ListView).display(PokemonListState.Error(e.message))
-      }
-
-      override fun onComplete() {}
-    })
+    disposable = APIManager.listObservable
+        .map { result ->
+          when (result) {
+            is PokemonListResult.Loading -> PokemonListState.Loading
+            is PokemonListResult.Content -> PokemonListState.Content(result.list)
+            is PokemonListResult.Error -> PokemonListState.Error(result.message)
+          }
+        }
+        .subscribe { state ->
+          (view as ListView).display(state)
+        }
   }
 }
