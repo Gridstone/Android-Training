@@ -8,11 +8,20 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 import java.lang.IllegalArgumentException
 
 private const val POKEMON_ID = "pokemon_id"
 
+sealed class PokemonDetailsState {
+  object Loading : PokemonDetailsState()
+  data class Content(val displayable: PokemonDetailsDisplayable) : PokemonDetailsState()
+  data class Error(val message: String? = "Unknown Error") : PokemonDetailsState()
+}
+
 class DetailsController(args: Bundle) : Controller(args) {
+
+  private var disposable: Disposable = Disposables.disposed()
 
   constructor(id: Int) : this(bundleOf(POKEMON_ID to id))
 
@@ -24,22 +33,25 @@ class DetailsController(args: Bundle) : Controller(args) {
   }
 
   override fun onAttach(view: View) {
-    super.onAttach(view)
-
     if (view !is DetailsView) throw IllegalArgumentException()
-
     val id = args.getInt(POKEMON_ID)
 
-    APIManager.getPokemon(id,
-        object : Observer<Pokemon> {
-          override fun onSubscribe(d: Disposable) {}
-          override fun onNext(t: Pokemon) {
-            view.display(t)
+    disposable = APIManager.detailsObservable(id)
+        .map { result ->
+          when (result) {
+            is PokemonDetailsResult.Loading -> PokemonDetailsState.Loading
+            is PokemonDetailsResult.Content -> PokemonDetailsState.Content(
+                PokemonDetailsDisplayable(result.pokemon)
+            )
+            is PokemonDetailsResult.Error -> PokemonDetailsState.Error(result.message)
           }
+        }
+        .subscribe { state ->
+          (view as DetailsView).display(state)
+        }
+  }
 
-          override fun onError(e: Throwable) {}
-
-          override fun onComplete() {}
-        })
+  override fun onDetach(view: View) {
+    disposable.dispose()
   }
 }

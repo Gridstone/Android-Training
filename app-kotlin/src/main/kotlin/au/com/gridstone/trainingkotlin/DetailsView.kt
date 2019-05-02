@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import au.com.gridstone.robocop.utils.bindView
+import au.com.gridstone.trainingkotlin.PokemonDetailsState.Content
+import au.com.gridstone.trainingkotlin.PokemonDetailsState.Loading
 import com.squareup.picasso.Picasso
 
 class DetailsView(
@@ -29,8 +31,21 @@ class DetailsView(
   private val detailTextOverlayView: View by bindView(R.id.detailTextOverlayView)
   private val imageView: ImageView by bindView(R.id.imageDetailsImageView)
 
-  fun display(pokemon: Pokemon) {
-    val displayable = PokemonDetailsDisplayable(pokemon)
+  fun display(state: PokemonDetailsState) {
+    when (state) {
+      is Loading -> {
+        progessBar.isVisible = true
+        detailsSection.isVisible = false
+      }
+      is Content -> {
+        progessBar.isVisible = false
+        detailsSection.isVisible = true
+        display(state.displayable)
+      }
+    }
+  }
+
+  private fun display(displayable: PokemonDetailsDisplayable) {
     titleView.text = displayable.title
     attackValueTextView.text = displayable.attackValue
     defenceValueTextView.text = displayable.defenseValue

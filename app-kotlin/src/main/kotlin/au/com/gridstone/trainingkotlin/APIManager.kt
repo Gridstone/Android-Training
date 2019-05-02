@@ -46,13 +46,19 @@ interface PokemonListService {
 
 interface PokemonDetailsService {
   @GET("pokemon/{id}")
-  fun getPokemon(@Path("id") id: Int): Observable<Pokemon>
+  fun getPokemon(@Path("id") id: Int): Single<Result<Pokemon>>
 }
 
 sealed class PokemonListResult {
   object Loading : PokemonListResult()
   data class Content(val list: List<PokemonSummary>) : PokemonListResult()
   data class Error(val message: String? = "Unknown Error") : PokemonListResult()
+}
+
+sealed class PokemonDetailsResult {
+  object Loading : PokemonDetailsResult()
+  data class Content(val pokemon: Pokemon) : PokemonDetailsResult()
+  data class Error(val message: String? = "Unknown Error") : PokemonDetailsResult()
 }
 
 
@@ -83,29 +89,21 @@ object APIManager {
       .replay(1)
       .autoConnect()
 
-  private var cachedPokemon = mutableMapOf<Int, Pokemon>()
-
-  fun getPokemon(
-    id: Int,
-    subscriber: Observer<Pokemon>
-  ): Observable<Pokemon> {
-
-    cachedPokemon[id]?.let { pokemon ->
-      val observable = Observable.just(pokemon)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-      observable.subscribe(subscriber)
-      return observable
-    }
-
+  fun detailsObservable(id: Int): Observable<PokemonDetailsResult> {
     val observable = detailsService.getPokemon(id)
-        .subscribeOn(Schedulers.io())
-        .doOnNext { pokemon ->
-          cachedPokemon[id] = pokemon
+        .map { result ->
+          if (!result.isError && result.response()?.isSuccessful == true) {
+            PokemonDetailsResult.Content(result.response().body()!!)
+          } else {
+            PokemonDetailsResult.Error(result.response()?.errorBody()?.toString() ?: "Unknown error")
+          }
         }
+        .toObservable()
+        .startWith(PokemonDetailsResult.Loading)
+        .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-
-    observable.subscribe(subscriber)
+        .replay(1)
+        .autoConnect()
 
     return observable
   }
