@@ -62,7 +62,7 @@ object APIManager {
 
   val listObservable: Observable<PokemonListState> = listService.getPokemonList()
       .map { result ->
-        if (!result.isError && result.response()?.isSuccessful ?: false) {
+        if (!result.isError && result.response()?.isSuccessful == true) {
           PokemonListState.Content(result.response().body()!!.results)
         } else {
           PokemonListState.Error(result.response()?.errorBody()?.toString() ?: "Unknown error")
