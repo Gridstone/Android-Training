@@ -115,6 +115,8 @@ object APIManager {
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .startWith(PokemonDetailsResult.Loading)
+        .replay(1)
+        .autoConnect()
 
     return observable
   }
