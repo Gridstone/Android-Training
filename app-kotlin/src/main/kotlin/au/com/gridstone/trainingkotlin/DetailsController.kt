@@ -33,7 +33,7 @@ class DetailsController(args: Bundle) : Controller(args) {
   }
 
   override fun onAttach(view: View) {
-    if (view !is DetailsView) throw IllegalArgumentException()
+    if (view !is DetailsView) throw IllegalArgumentException("View must be DetailsView")
     val id = args.getInt(POKEMON_ID)
 
     disposable = APIManager.detailsObservable(id)
