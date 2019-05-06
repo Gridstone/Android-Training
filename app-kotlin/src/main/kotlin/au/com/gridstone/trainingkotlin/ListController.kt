@@ -24,8 +24,8 @@ class ListController : Controller() {
   private var disposable: Disposable = Disposables.disposed()
 
   override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup
+      inflater: LayoutInflater,
+      container: ViewGroup
   ): View {
     val view = inflater.inflate(R.layout.view_list, container, false)
     router.activity?.applicationContext?.let { context ->
@@ -62,14 +62,6 @@ class ListController : Controller() {
   }
 
   override fun onAttach(view: View) {
-    loadData()
-  }
-
-  override fun onDetach(view: View) {
-    disposable.dispose()
-  }
-
-  private fun loadData() {
     disposable = APIManager.pokemonListResults
         .map { result ->
           when (result) {
@@ -81,5 +73,9 @@ class ListController : Controller() {
         .subscribe { state ->
           (view as ListView).display(state)
         }
+  }
+
+  override fun onDetach(view: View) {
+    disposable.dispose()
   }
 }
