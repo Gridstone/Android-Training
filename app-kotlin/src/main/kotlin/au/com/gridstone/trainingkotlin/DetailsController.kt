@@ -21,9 +21,9 @@ sealed class PokemonDetailsState {
 
 class DetailsController(args: Bundle) : Controller(args) {
 
-  private var disposable: Disposable = Disposables.disposed()
-
   constructor(id: Int) : this(bundleOf(POKEMON_ID to id))
+
+  private var disposable: Disposable = Disposables.disposed()
 
   override fun onCreateView(
     inflater: LayoutInflater,
