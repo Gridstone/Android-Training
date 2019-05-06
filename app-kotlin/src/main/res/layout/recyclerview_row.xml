@@ -24,6 +24,7 @@
       android:paddingEnd="26dp"
       android:textColor="@android:color/white"
       android:textSize="18sp"
+      android:gravity="center_vertical"
       />
 
 </FrameLayout>
