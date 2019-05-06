@@ -16,7 +16,7 @@ private const val POKEMON_ID = "pokemon_id"
 sealed class PokemonDetailsState {
   object Loading : PokemonDetailsState()
   data class Content(val displayable: PokemonDetailsDisplayable) : PokemonDetailsState()
-  data class Error(val message: String? = "Unknown Error") : PokemonDetailsState()
+  data class Error(val message: String) : PokemonDetailsState()
 }
 
 class DetailsController(args: Bundle) : Controller(args) {
