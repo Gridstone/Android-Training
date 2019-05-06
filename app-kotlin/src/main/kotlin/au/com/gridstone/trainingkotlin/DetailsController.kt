@@ -24,7 +24,7 @@ class DetailsController(args: Bundle) : Controller(args) {
   constructor(id: Int) : this(bundleOf(POKEMON_ID to id))
 
   private val id = args.getInt(POKEMON_ID)
-  
+
   private var disposable: Disposable = Disposables.disposed()
 
   override fun onCreateView(

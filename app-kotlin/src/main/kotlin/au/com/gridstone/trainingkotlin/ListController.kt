@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposables
 sealed class PokemonListState {
   object Loading : PokemonListState()
   data class Content(val list: List<PokemonSummary>) : PokemonListState()
-  data class Error(val message: String? = "Unknown Error") : PokemonListState()
+  data class Error(val message: String) : PokemonListState()
 }
 
 class ListController : Controller() {
