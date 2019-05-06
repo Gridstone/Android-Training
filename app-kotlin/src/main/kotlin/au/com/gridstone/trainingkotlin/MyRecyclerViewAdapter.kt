@@ -21,25 +21,6 @@ class MyRecyclerViewAdapter :
 
   private lateinit var myDataset: List<PokemonSummary>
 
-  inner class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
-    private val titleTextView: TextView by bindView(R.id.imageListTitle)
-    private val imageView: ImageView by bindView(R.id.imageListImageView)
-
-    private var id: Int? = null
-
-    init {
-      titleTextView.background.mutate().alpha = 200
-      view.clicks().map { id }.subscribe(tapRelay)
-    }
-
-    fun bindTo(displayable: PokemonDisplayble) {
-      titleTextView.text = displayable.title
-      Picasso.get()
-          .load(displayable.imageURL)
-          .into(imageView)
-    }
-  }
-
   fun set(data: List<PokemonSummary>) {
     myDataset = data
   }
@@ -64,4 +45,23 @@ class MyRecyclerViewAdapter :
   }
 
   override fun getItemCount() = myDataset.size
+
+  inner class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
+    private val titleTextView: TextView by bindView(R.id.imageListTitle)
+    private val imageView: ImageView by bindView(R.id.imageListImageView)
+
+    private var id: Int? = null
+
+    init {
+      titleTextView.background.mutate().alpha = 200
+      view.clicks().map { id }.subscribe(tapRelay)
+    }
+
+    fun bindTo(displayable: PokemonDisplayble) {
+      titleTextView.text = displayable.title
+      Picasso.get()
+          .load(displayable.imageURL)
+          .into(imageView)
+    }
+  }
 }
