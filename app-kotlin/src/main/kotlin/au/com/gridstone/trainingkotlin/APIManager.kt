@@ -112,9 +112,9 @@ object APIManager {
           }
         }
         .toObservable()
-        .startWith(PokemonDetailsResult.Loading)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
+        .startWith(PokemonDetailsResult.Loading)
 
     return observable
   }
