@@ -10,7 +10,7 @@ open class PokemonDisplayable(name: String, id: Int) {
   }
 }
 
-class PokemonDetailsDisplayable(pokemon: Pokemon): PokemonDisplayable(pokemon.name, pokemon.id) {
+class PokemonDetailsDisplayable(pokemon: Pokemon) : PokemonDisplayable(pokemon.name, pokemon.id) {
   val attackValue: String
   val defenseValue: String
   val specialAttackValue: String
@@ -22,8 +22,7 @@ class PokemonDetailsDisplayable(pokemon: Pokemon): PokemonDisplayable(pokemon.na
     fun statForType(type: String): Int? {
       return pokemon.stats.firstOrNull { stat ->
         stat.stat.name == type
-      }
-          ?.baseStat
+      }?.baseStat
     }
 
     fun stringForStat(name: String): String {
