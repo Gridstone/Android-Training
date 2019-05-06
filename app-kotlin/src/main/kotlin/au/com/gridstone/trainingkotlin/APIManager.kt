@@ -53,13 +53,13 @@ interface PokemonDetailsService {
 sealed class PokemonListResult {
   object Loading : PokemonListResult()
   data class Content(val list: List<PokemonSummary>) : PokemonListResult()
-  data class Error(val message: String? = "Unknown Error") : PokemonListResult()
+  data class Error(val message: String = "Unknown Error") : PokemonListResult()
 }
 
 sealed class PokemonDetailsResult {
   object Loading : PokemonDetailsResult()
   data class Content(val pokemon: Pokemon) : PokemonDetailsResult()
-  data class Error(val message: String? = "Unknown Error") : PokemonDetailsResult()
+  data class Error(val message: String = "Unknown Error") : PokemonDetailsResult()
 }
 
 
