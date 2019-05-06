@@ -1,6 +1,6 @@
 package au.com.gridstone.trainingkotlin
 
-open class PokemonDisplayble(name: String, id: Int) {
+open class PokemonDisplayable(name: String, id: Int) {
   val title: String = name.capitalize()
   val imageURL: String
 
@@ -10,7 +10,7 @@ open class PokemonDisplayble(name: String, id: Int) {
   }
 }
 
-class PokemonDetailsDisplayable(pokemon: Pokemon): PokemonDisplayble(pokemon.name, pokemon.id) {
+class PokemonDetailsDisplayable(pokemon: Pokemon): PokemonDisplayable(pokemon.name, pokemon.id) {
   val attackValue: String
   val defenseValue: String
   val specialAttackValue: String

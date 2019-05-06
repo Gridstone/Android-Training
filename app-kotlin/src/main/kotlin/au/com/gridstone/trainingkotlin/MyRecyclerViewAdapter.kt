@@ -1,6 +1,5 @@
 package au.com.gridstone.trainingkotlin
 
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -40,7 +39,7 @@ class MyRecyclerViewAdapter :
   ) {
     val pokemon = myDataset[position]
     // Assume that the pokemon's ID is their position in the array plus one, as the endpoint does not give ID alongside name.
-    val displayable = PokemonDisplayble(pokemon.name, position + 1)
+    val displayable = PokemonDisplayable(pokemon.name, position + 1)
     holder.bindTo(displayable)
   }
 
@@ -57,7 +56,7 @@ class MyRecyclerViewAdapter :
       view.clicks().map { id }.subscribe(tapRelay)
     }
 
-    fun bindTo(displayable: PokemonDisplayble) {
+    fun bindTo(displayable: PokemonDisplayable) {
       titleTextView.text = displayable.title
       Picasso.get()
           .load(displayable.imageURL)
