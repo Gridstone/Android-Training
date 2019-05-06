@@ -7,23 +7,43 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxrelay2.PublishRelay
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import au.com.gridstone.robocop.utils.bindView
+import com.jakewharton.rxbinding3.view.clicks
 
 class MyRecyclerViewAdapter :
     RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
-  var tapHandler: ((id: Int) -> Unit)? = null
+  private var tapRelay: PublishRelay<Int> = PublishRelay.create()
+  val selections: Observable<Int> = tapRelay
 
   private lateinit var myDataset: List<PokemonSummary>
 
-  class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
-    val titleTextView = view.findViewById<TextView>(R.id.imageListTitle)
-        .apply {
-          this.gravity = Gravity.CENTER_VERTICAL
-          this.background.mutate()
-              .alpha = 200
-        }
-    val imageView = view.findViewById<ImageView>(R.id.imageListImageView)
+  inner class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
+    val titleTextView: TextView by bindView(R.id.imageListTitle)
+    val imageView: ImageView by bindView(R.id.imageListImageView)
+
+    private var id: Int? = null
+
+    init {
+      titleTextView.gravity = Gravity.CENTER_VERTICAL
+      titleTextView.background.mutate().alpha = 200
+
+      view.clicks().map { id }.subscribe(tapRelay)
+    }
+
+    fun bindTo(position: Int) {
+      val pokemon = myDataset[position]
+      // Assume that the pokemon's ID is their position in the array plus one, as the endpoint does not give ID alongside name.
+      id = position + 1
+      val displayable = PokemonDisplayble(pokemon.name, id!!)
+      titleTextView.text = displayable.title
+      Picasso.get()
+          .load(displayable.imageURL)
+          .into(imageView)
+    }
   }
 
   fun set(data: List<PokemonSummary>) {
@@ -43,18 +63,7 @@ class MyRecyclerViewAdapter :
     holder: MyViewHolder,
     position: Int
   ) {
-    val pokemon = myDataset[position]
-    // Assume that the pokemon's ID is their position in the array plus one, as the endpoint does not give ID alongside name.
-    val id: Int = position + 1
-    val displayable = PokemonDisplayble(pokemon.name, id)
-    holder.titleTextView.text = displayable.title
-    Picasso.get()
-        .load(displayable.imageURL)
-        .into(holder.imageView)
-
-    holder.view.setOnClickListener {
-      tapHandler?.invoke(id)
-    }
+    holder.bindTo(position)
   }
 
   override fun getItemCount() = myDataset.size

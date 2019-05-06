@@ -37,7 +37,8 @@ class ListController : Controller() {
     router.activity?.applicationContext?.let { context ->
       val viewAdapter = MyRecyclerViewAdapter()
       viewAdapter.set(ArrayList())
-      viewAdapter.tapHandler = { id ->
+
+      viewAdapter.selections.subscribe { id ->
         val transaction: RouterTransaction = RouterTransaction.with(DetailsController(id))
             .pushChangeHandler(FadeChangeHandler())
             .popChangeHandler(FadeChangeHandler())
