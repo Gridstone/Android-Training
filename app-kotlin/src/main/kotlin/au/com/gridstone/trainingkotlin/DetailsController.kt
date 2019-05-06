@@ -23,6 +23,8 @@ class DetailsController(args: Bundle) : Controller(args) {
 
   constructor(id: Int) : this(bundleOf(POKEMON_ID to id))
 
+  private val id = args.getInt(POKEMON_ID)
+  
   private var disposable: Disposable = Disposables.disposed()
 
   override fun onCreateView(
@@ -34,7 +36,6 @@ class DetailsController(args: Bundle) : Controller(args) {
 
   override fun onAttach(view: View) {
     if (view !is DetailsView) throw IllegalArgumentException("View must be DetailsView")
-    val id = args.getInt(POKEMON_ID)
 
     disposable = APIManager.detailsObservable(id)
         .map { result ->
