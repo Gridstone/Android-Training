@@ -98,7 +98,7 @@ This app will be composed of two screens. The list screen and the details screen
 
 #### For the details
 * You must display the Pokemon's image to take up the entire screen. They are PNGs so there will be whitespace around them, but they should be allowed to fill the entire screenl
-* You must display the attack, defense, sp. attack, sp. defense, speed and HP as shown in the sample screenshot.
+* You must display the Pokemon's name, attack, defense, sp. attack, sp. defense, speed and HP as shown in the sample screenshot.
 
 Some Tips
 ---------
