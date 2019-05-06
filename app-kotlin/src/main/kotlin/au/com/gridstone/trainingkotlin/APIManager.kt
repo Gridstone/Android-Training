@@ -14,6 +14,7 @@ import io.reactivex.Observer
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 
 data class Stat(
   val name: String
@@ -64,6 +65,8 @@ sealed class PokemonDetailsResult {
 
 object APIManager {
 
+  private val refreshActions: PublishSubject<Unit> = PublishSubject.create()
+
   private val retrofit = Retrofit.Builder()
       .baseUrl("https://pokeapi.co/api/v2/")
       .addConverterFactory(GsonConverterFactory.create())
@@ -74,7 +77,7 @@ object APIManager {
 
   private val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
 
-  val listObservable: Observable<PokemonListResult> = listService.getPokemonList()
+  private val listObservable: Observable<PokemonListResult> = listService.getPokemonList()
       .map { result ->
         if (!result.isError && result.response()?.isSuccessful == true) {
           PokemonListResult.Content(result.response().body()!!.results)
@@ -83,11 +86,21 @@ object APIManager {
         }
       }
       .toObservable()
-      .startWith(PokemonListResult.Loading)
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
+      .startWith(PokemonListResult.Loading)
+
+  val pokemonListResults: Observable<PokemonListResult> = refreshActions
+      .startWith(Unit)
+      .switchMap { listObservable }
+      .startWith(PokemonListResult.Loading)
+      .distinctUntilChanged()
       .replay(1)
       .autoConnect()
+
+  fun refresh() {
+    refreshActions.onNext(Unit)
+  }
 
   fun detailsObservable(id: Int): Observable<PokemonDetailsResult> {
     val observable = detailsService.getPokemon(id)

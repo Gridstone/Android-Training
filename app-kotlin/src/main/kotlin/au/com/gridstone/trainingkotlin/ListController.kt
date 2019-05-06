@@ -3,20 +3,14 @@ package au.com.gridstone.trainingkotlin
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
-import io.reactivex.Observer
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
-import java.lang.IllegalArgumentException
 
 sealed class PokemonListState {
   object Loading : PokemonListState()
@@ -61,8 +55,7 @@ class ListController : Controller() {
 
     swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
     swipeRefreshLayout.setOnRefreshListener {
-      disposable.dispose()
-      loadData()
+      APIManager.refresh()
     }
 
     return view
@@ -77,7 +70,7 @@ class ListController : Controller() {
   }
 
   private fun loadData() {
-    disposable = APIManager.listObservable
+    disposable = APIManager.pokemonListResults
         .map { result ->
           when (result) {
             is PokemonListResult.Loading -> PokemonListState.Loading
