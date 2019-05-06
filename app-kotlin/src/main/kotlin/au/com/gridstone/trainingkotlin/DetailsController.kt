@@ -48,7 +48,7 @@ class DetailsController(args: Bundle) : Controller(args) {
           }
         }
         .subscribe { state ->
-          (view as DetailsView).display(state)
+          view.display(state)
         }
   }
 
