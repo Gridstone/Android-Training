@@ -32,11 +32,7 @@ class MyRecyclerViewAdapter :
       view.clicks().map { id }.subscribe(tapRelay)
     }
 
-    fun bindTo(position: Int) {
-      val pokemon = myDataset[position]
-      // Assume that the pokemon's ID is their position in the array plus one, as the endpoint does not give ID alongside name.
-      id = position + 1
-      val displayable = PokemonDisplayble(pokemon.name, id!!)
+    fun bindTo(displayable: PokemonDisplayble) {
       titleTextView.text = displayable.title
       Picasso.get()
           .load(displayable.imageURL)
@@ -61,7 +57,10 @@ class MyRecyclerViewAdapter :
     holder: MyViewHolder,
     position: Int
   ) {
-    holder.bindTo(position)
+    val pokemon = myDataset[position]
+    // Assume that the pokemon's ID is their position in the array plus one, as the endpoint does not give ID alongside name.
+    val displayable = PokemonDisplayble(pokemon.name, position + 1)
+    holder.bindTo(displayable)
   }
 
   override fun getItemCount() = myDataset.size
