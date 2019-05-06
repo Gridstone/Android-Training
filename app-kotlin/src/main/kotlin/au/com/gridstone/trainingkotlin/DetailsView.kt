@@ -63,9 +63,6 @@ class DetailsView(
     specialAttackValueTextView.text = displayable.specialAttackValue
     specialDefenseValueTextView.text = displayable.specialDefenseValue
     hpValueTextView.text = displayable.hpValue
-    detailTextOverlayView
-        .background.mutate()
-        .alpha = 200
     Picasso.get()
         .load(displayable.imageURL)
         .into(imageView)

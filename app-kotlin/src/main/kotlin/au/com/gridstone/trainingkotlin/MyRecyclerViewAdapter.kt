@@ -53,7 +53,6 @@ class MyRecyclerViewAdapter :
     private var id: Int? = null
 
     init {
-      titleTextView.background.mutate().alpha = 200
       view.clicks().map { id }.subscribe(tapRelay)
     }
 
