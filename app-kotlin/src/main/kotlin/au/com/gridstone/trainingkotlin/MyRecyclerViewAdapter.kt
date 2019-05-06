@@ -22,8 +22,8 @@ class MyRecyclerViewAdapter :
   private lateinit var myDataset: List<PokemonSummary>
 
   inner class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
-    val titleTextView: TextView by bindView(R.id.imageListTitle)
-    val imageView: ImageView by bindView(R.id.imageListImageView)
+    private val titleTextView: TextView by bindView(R.id.imageListTitle)
+    private val imageView: ImageView by bindView(R.id.imageListImageView)
 
     private var id: Int? = null
 
