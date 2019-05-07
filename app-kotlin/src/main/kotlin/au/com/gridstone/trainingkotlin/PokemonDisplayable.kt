@@ -3,6 +3,7 @@ package au.com.gridstone.trainingkotlin
 open class PokemonDisplayable(name: String, id: Int) {
   val title: String = name.capitalize()
   val imageURL: String
+  val id = id
 
   init {
     val formattedID = String.format("%03d", id)

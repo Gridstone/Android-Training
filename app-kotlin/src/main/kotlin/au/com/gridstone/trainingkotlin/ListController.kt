@@ -14,7 +14,7 @@ import io.reactivex.disposables.Disposables
 
 sealed class PokemonListState {
   object Loading : PokemonListState()
-  data class Content(val list: List<PokemonSummary>) : PokemonListState()
+  data class Content(val list: List<PokemonDisplayable>) : PokemonListState()
   data class Error(val message: String) : PokemonListState()
 }
 
@@ -62,11 +62,18 @@ class ListController : Controller() {
   }
 
   override fun onAttach(view: View) {
+
+    fun generateDisplayables(pokemonSummaries: List<PokemonSummary>): List<PokemonDisplayable> =
+        pokemonSummaries.map { summary ->
+          PokemonDisplayable(summary.name, pokemonSummaries.indexOf(summary) + 1)
+        }
+
     disposable = APIManager.pokemonListResults
         .map { result ->
           when (result) {
             is PokemonListResult.Loading -> PokemonListState.Loading
-            is PokemonListResult.Content -> PokemonListState.Content(result.list)
+            is PokemonListResult.Content ->
+              PokemonListState.Content(generateDisplayables(result.list))
             is PokemonListResult.Error -> PokemonListState.Error(result.message)
           }
         }

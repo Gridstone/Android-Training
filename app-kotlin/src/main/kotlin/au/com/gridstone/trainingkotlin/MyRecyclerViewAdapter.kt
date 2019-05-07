@@ -18,10 +18,10 @@ class MyRecyclerViewAdapter :
   private var tapRelay: PublishRelay<Int> = PublishRelay.create()
   val selections: Observable<Int> = tapRelay
 
-  private lateinit var myDataset: List<PokemonSummary>
+  private lateinit var myDataSet: List<PokemonDisplayable>
 
-  fun set(data: List<PokemonSummary>) {
-    myDataset = data
+  fun set(data: List<PokemonDisplayable>) {
+    myDataSet = data
   }
 
   override fun onCreateViewHolder(
@@ -37,16 +37,12 @@ class MyRecyclerViewAdapter :
     holder: MyViewHolder,
     position: Int
   ) {
-    val pokemon = myDataset[position]
-    val id = position + 1
-    // Assume that the pokemon's ID is their position in the array plus one, as the endpoint does not give ID alongside name.
-    val displayable = PokemonDisplayable(pokemon.name, id)
-    holder.bindTo(displayable, id)
+    holder.bindTo(myDataSet[position])
   }
 
-  override fun getItemCount() = myDataset.size
+  override fun getItemCount() = myDataSet.size
 
-  inner class MyViewHolder(val view: FrameLayout) : RecyclerView.ViewHolder(view) {
+  inner class MyViewHolder(view: FrameLayout) : RecyclerView.ViewHolder(view) {
     private val titleTextView: TextView by bindView(R.id.imageListTitle)
     private val imageView: ImageView by bindView(R.id.imageListImageView)
 
@@ -56,8 +52,8 @@ class MyRecyclerViewAdapter :
       view.clicks().map { id }.subscribe(tapRelay)
     }
 
-    fun bindTo(displayable: PokemonDisplayable, id: Int) {
-      this.id = id
+    fun bindTo(displayable: PokemonDisplayable) {
+      id = displayable.id
       titleTextView.text = displayable.title
       Picasso.get()
           .load(displayable.imageURL)
