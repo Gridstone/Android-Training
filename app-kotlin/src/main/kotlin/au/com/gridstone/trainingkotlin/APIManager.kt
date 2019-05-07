@@ -15,29 +15,30 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import java.io.IOException
 
 data class Stat(
-  val name: String
+    val name: String
 )
 
 data class StatDetail(
-  @SerializedName("base_stat")
-  val baseStat: Int,
-  val stat: Stat
+    @SerializedName("base_stat")
+    val baseStat: Int,
+    val stat: Stat
 )
 
 data class Pokemon(
-  val id: Int,
-  val name: String,
-  val stats: List<StatDetail>
+    val id: Int,
+    val name: String,
+    val stats: List<StatDetail>
 )
 
 data class PokemonSummary(
-  val name: String
+    val name: String
 )
 
 data class PokemonBaseResponse(
-  val results: List<PokemonSummary>
+    val results: List<PokemonSummary>
 )
 
 interface PokemonListService {
@@ -75,14 +76,16 @@ object APIManager {
 
   private val listService: PokemonListService = retrofit.create(PokemonListService::class.java)
 
-  private val detailsService: PokemonDetailsService = retrofit.create(PokemonDetailsService::class.java)
+  private val detailsService: PokemonDetailsService = retrofit.create(
+      PokemonDetailsService::class.java)
 
   private val listObservable: Observable<PokemonListResult> = listService.getPokemonList()
       .map { result ->
-        if (!result.isError && result.response()?.isSuccessful == true) {
-          PokemonListResult.Content(result.response().body()!!.results)
-        } else {
-          PokemonListResult.Error(result.response()?.errorBody()?.toString() ?: "Unknown error")
+        when {
+          (!result.isError && result.response()?.isSuccessful == true) ->
+            PokemonListResult.Content(result.response().body()!!.results)
+          result.error() is IOException -> PokemonListResult.Error("Network Error")
+          else -> PokemonListResult.Error("Server Error")
         }
       }
       .toObservable()
@@ -105,10 +108,11 @@ object APIManager {
   fun detailsObservable(id: Int): Observable<PokemonDetailsResult> {
     return detailsService.getPokemon(id)
         .map { result ->
-          if (!result.isError && result.response()?.isSuccessful == true) {
-            PokemonDetailsResult.Content(result.response().body()!!)
-          } else {
-            PokemonDetailsResult.Error(result.response()?.errorBody()?.toString() ?: "Unknown error")
+          when {
+            (!result.isError && result.response()?.isSuccessful == true) ->
+              PokemonDetailsResult.Content(result.response().body()!!)
+            result.error() is IOException -> PokemonDetailsResult.Error("Network Error")
+            else -> PokemonDetailsResult.Error("Server Error")
           }
         }
         .toObservable()
