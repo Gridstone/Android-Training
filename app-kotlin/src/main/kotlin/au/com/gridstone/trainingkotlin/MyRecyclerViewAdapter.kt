@@ -15,8 +15,8 @@ import com.jakewharton.rxbinding3.view.clicks
 class MyRecyclerViewAdapter :
     RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
 
-  private var tapRelay: PublishRelay<Int> = PublishRelay.create()
-  val selections: Observable<Int> = tapRelay
+  private var tapRelay: PublishRelay<ListViewEvent.Selection> = PublishRelay.create()
+  val selections: Observable<ListViewEvent.Selection> = tapRelay
 
   private lateinit var myDataSet: List<PokemonDisplayable>
 
@@ -49,7 +49,9 @@ class MyRecyclerViewAdapter :
     private var id: Int? = null
 
     init {
-      view.clicks().map { id }.subscribe(tapRelay)
+      view.clicks()
+          .map { ListViewEvent.Selection(id!!) }
+          .subscribe(tapRelay)
     }
 
     fun bindTo(displayable: PokemonDisplayable) {

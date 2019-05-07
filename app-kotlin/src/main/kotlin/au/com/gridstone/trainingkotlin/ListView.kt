@@ -6,21 +6,50 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import au.com.gridstone.robocop.utils.bindView
 import au.com.gridstone.trainingkotlin.PokemonListState.Content
 import au.com.gridstone.trainingkotlin.PokemonListState.Error
 import au.com.gridstone.trainingkotlin.PokemonListState.Loading
-import org.w3c.dom.Text
+import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
+import com.jakewharton.rxrelay2.PublishRelay
+import io.reactivex.Observable
 
-class ListView(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {
+sealed class ListViewEvent {
+  object Refresh : ListViewEvent()
+  data class Selection(val index: Int) : ListViewEvent()
+}
+
+class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
   private val progressBar: ProgressBar by bindView(R.id.list_progress_bar)
   private val errorTextView: TextView by bindView(R.id.errorTextView)
   private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_refresh_layout)
   private val recyclerView: RecyclerView by bindView(R.id.my_recycler_view)
+
+  private var eventsRelay: PublishRelay<ListViewEvent> = PublishRelay.create()
+
+  var events: Observable<ListViewEvent> = eventsRelay
+
+  override fun onFinishInflate() {
+    super.onFinishInflate()
+    val viewAdapter = MyRecyclerViewAdapter()
+    viewAdapter.set(ArrayList())
+
+    viewAdapter.selections.subscribe(eventsRelay)
+
+    swipeRefreshLayout.refreshes().map { ListViewEvent.Refresh }.subscribe(eventsRelay)
+
+    val viewManager = LinearLayoutManager(context)
+
+    recyclerView.apply {
+      setHasFixedSize(true)
+      layoutManager = viewManager
+      adapter = viewAdapter
+    }
+  }
 
   fun display(state: PokemonListState) {
     // Assume that whenever we are showing a state, we no longer want to show the refresh indicator
