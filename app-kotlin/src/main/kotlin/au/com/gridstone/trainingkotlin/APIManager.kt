@@ -103,7 +103,7 @@ object APIManager {
   }
 
   fun detailsObservable(id: Int): Observable<PokemonDetailsResult> {
-    val observable = detailsService.getPokemon(id)
+    return detailsService.getPokemon(id)
         .map { result ->
           if (!result.isError && result.response()?.isSuccessful == true) {
             PokemonDetailsResult.Content(result.response().body()!!)
@@ -117,7 +117,5 @@ object APIManager {
         .startWith(PokemonDetailsResult.Loading)
         .replay(1)
         .autoConnect()
-
-    return observable
   }
 }
