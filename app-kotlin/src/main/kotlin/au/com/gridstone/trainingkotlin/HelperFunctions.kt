@@ -52,9 +52,8 @@ fun pokemonDetailsResultsToDetailState(): ObservableTransformer<PokemonDetailsRe
       results.map { result ->
         when (result) {
           is PokemonDetailsResult.Loading -> PokemonDetailsState.Loading
-          is PokemonDetailsResult.Content -> {
+          is PokemonDetailsResult.Content ->
             PokemonDetailsState.Content(createPokemonDetailsDisplayable((result.pokemon)))
-          }
           is PokemonDetailsResult.Error -> PokemonDetailsState.Error(result.message)
         }
       }
@@ -65,9 +64,8 @@ fun pokemonListResultsToListState(): ObservableTransformer<PokemonListResult, Po
       result.map { result ->
         when (result) {
           is PokemonListResult.Loading -> PokemonListState.Loading
-          is PokemonListResult.Content -> {
+          is PokemonListResult.Content ->
             PokemonListState.Content(generateDisplayables(result.list))
-          }
           is PokemonListResult.Error -> PokemonListState.Error(result.message)
         }
       }
