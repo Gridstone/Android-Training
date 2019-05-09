@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import com.bluelinelabs.conductor.Controller
 import android.os.Bundle
 import androidx.core.os.bundleOf
-import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import java.lang.IllegalArgumentException
@@ -42,7 +41,7 @@ class DetailsController(args: Bundle) : Controller(args) {
           when (result) {
             is PokemonDetailsResult.Loading -> PokemonDetailsState.Loading
             is PokemonDetailsResult.Content -> PokemonDetailsState.Content(
-                PokemonDetailsDisplayable(result.pokemon)
+                createPokemonDetailsDisplayable(result.pokemon)
             )
             is PokemonDetailsResult.Error -> PokemonDetailsState.Error(result.message)
           }

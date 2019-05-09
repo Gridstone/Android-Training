@@ -46,7 +46,7 @@ class ListController : Controller() {
 
     fun generateDisplayables(pokemonSummaries: List<PokemonSummary>): List<PokemonDisplayable> =
         pokemonSummaries.map { summary ->
-          PokemonDisplayable(summary.name, pokemonSummaries.indexOf(summary) + 1)
+          createPokemonDisplayable(summary.name, pokemonSummaries.indexOf(summary) + 1)
         }
 
     disposables.add(APIManager.pokemonListResults
