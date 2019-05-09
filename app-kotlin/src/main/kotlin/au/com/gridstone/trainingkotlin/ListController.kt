@@ -44,20 +44,8 @@ class ListController : Controller() {
       }
     })
 
-    fun generateDisplayables(pokemonSummaries: List<PokemonSummary>): List<PokemonDisplayable> =
-        pokemonSummaries.map { summary ->
-          createPokemonDisplayable(summary.name, pokemonSummaries.indexOf(summary) + 1)
-        }
-
     disposables.add(APIManager.pokemonListResults
-                        .map { result ->
-                          when (result) {
-                            is PokemonListResult.Loading -> PokemonListState.Loading
-                            is PokemonListResult.Content ->
-                              PokemonListState.Content(generateDisplayables(result.list))
-                            is PokemonListResult.Error -> PokemonListState.Error(result.message)
-                          }
-                        }
+                        .compose(pokemonListResultsToListState())
                         .subscribe { state ->
                           view.display(state)
                         })

@@ -37,15 +37,7 @@ class DetailsController(args: Bundle) : Controller(args) {
     if (view !is DetailsView) throw IllegalArgumentException("View must be DetailsView")
 
     disposable = APIManager.detailsObservable(id)
-        .map { result ->
-          when (result) {
-            is PokemonDetailsResult.Loading -> PokemonDetailsState.Loading
-            is PokemonDetailsResult.Content -> PokemonDetailsState.Content(
-                createPokemonDetailsDisplayable(result.pokemon)
-            )
-            is PokemonDetailsResult.Error -> PokemonDetailsState.Error(result.message)
-          }
-        }
+        .compose(pokemonDetailsResultsToDetailState())
         .subscribe { state ->
           view.display(state)
         }
