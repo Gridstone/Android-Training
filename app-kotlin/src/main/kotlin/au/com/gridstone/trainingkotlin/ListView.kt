@@ -35,7 +35,7 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
 
   override fun onFinishInflate() {
     super.onFinishInflate()
-    val viewAdapter = MyRecyclerViewAdapter()
+    val viewAdapter = PokemonDisplayableAdapter()
     viewAdapter.set(ArrayList())
 
     viewAdapter.selections.subscribe(eventsRelay)
@@ -62,7 +62,7 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         errorTextView?.isVisible = false
       }
       is Content -> {
-        (recyclerView.adapter as MyRecyclerViewAdapter).set(state.list)
+        (recyclerView.adapter as PokemonDisplayableAdapter).set(state.list)
         recyclerView.adapter?.notifyDataSetChanged()
         progressBar?.isVisible = false
         recyclerView?.isVisible = true

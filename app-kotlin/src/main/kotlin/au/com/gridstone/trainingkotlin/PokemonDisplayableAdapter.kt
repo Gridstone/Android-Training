@@ -12,8 +12,8 @@ import io.reactivex.Observable
 import au.com.gridstone.robocop.utils.bindView
 import com.jakewharton.rxbinding3.view.clicks
 
-class MyRecyclerViewAdapter :
-    RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder>() {
+class PokemonDisplayableAdapter :
+    RecyclerView.Adapter<PokemonDisplayableAdapter.PokemonDisplayableViewHolder>() {
 
   private var tapRelay: PublishRelay<ListViewEvent.Selection> = PublishRelay.create()
   val selections: Observable<ListViewEvent.Selection> = tapRelay
@@ -27,22 +27,22 @@ class MyRecyclerViewAdapter :
   override fun onCreateViewHolder(
     parent: ViewGroup,
     viewType: Int
-  ): MyViewHolder {
+  ): PokemonDisplayableViewHolder {
     val row = LayoutInflater.from(parent.context)
         .inflate(R.layout.recyclerview_row, parent, false) as FrameLayout
-    return MyViewHolder(row)
+    return PokemonDisplayableViewHolder(row)
   }
 
   override fun onBindViewHolder(
-    holder: MyViewHolder,
-    position: Int
+      holder: PokemonDisplayableViewHolder,
+      position: Int
   ) {
     holder.bindTo(myDataSet[position])
   }
 
   override fun getItemCount() = myDataSet.size
 
-  inner class MyViewHolder(view: FrameLayout) : RecyclerView.ViewHolder(view) {
+  inner class PokemonDisplayableViewHolder(view: FrameLayout) : RecyclerView.ViewHolder(view) {
     private val titleTextView: TextView by bindView(R.id.imageListTitle)
     private val imageView: ImageView by bindView(R.id.imageListImageView)
 
