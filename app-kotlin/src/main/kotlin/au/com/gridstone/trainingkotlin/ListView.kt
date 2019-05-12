@@ -31,7 +31,7 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
 
   private var eventsRelay: PublishRelay<ListViewEvent> = PublishRelay.create()
 
-  var events: Observable<ListViewEvent> = eventsRelay
+  val events: Observable<ListViewEvent> = eventsRelay
 
   override fun onFinishInflate() {
     super.onFinishInflate()
