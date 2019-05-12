@@ -62,22 +62,18 @@ https://pokeapi.co/api/v2/pokemon?limit=151
 ```
 This will give you a list of the first 151 Pokemon in the pokedex, which is all we need for this training. Note that this does not give you the details for each of those Pokemon (e.g. stats), only their `name` and a `url` that fetches their details.
 
-Both responses (the list and the details for the individual Pokemon) will be in JSON, which is perfect. The structure of these can be found at 
-
-The response you get from PokeAPI will be in JSON, which is perfect. The structure of these response objects is described [here in the PokeAPI's documentation](https://pokeapi.co/docs/v2.html#pokemon). The list response is dimple, as described above. However, there are quite a few fields when fetching details, but for the purposes of this demo we can focus on just a few. Specifically:
+The responses you get from PokeAPI will be in JSON, which is perfect. The structure of these response objects is described [here in the PokeAPI's documentation](https://pokeapi.co/docs/v2.html#pokemon). The list response is simple, as described above. However, there are quite a few fields when fetching details, but for the purposes of this demo we can focus on just a few. Specifically:
 ```
 id
 name
 stats
 ```
 
-Note that you will have to model a `stats` object, as you will have to dig within each object to get the stat `name`, which is at a different level than the `base_stat`.
-
 If you would rather experiment with the API hands-on rather than read documentation, [Postman](https://www.getpostman.com/) is a useful tool for this.
 
 ### Images
 
-The PokeAPI endpoint returns links to thumbnails, but these are relatively small. Instead, we will do some hacky-but-it-works implementation to get images from the Pokemon Official Pokedex website. The link below will return a high resolution image if the ID at the end (in this case, `001`) is valid. (Note that whilst the list endpoint does not return the ID of the individual Pokemon, we can assume that their index in the list, plus one, is their ID).
+The PokeAPI endpoint returns links to thumbnails, but these are relatively small. Instead, we will get images from the Pokemon Official Pokedex website. The link below will return a high resolution image if the ID at the end (in this case, `001`) is valid. (Note that whilst the list endpoint does not return the ID of the individual Pokemon, we can assume that their index in the list, plus one, is their ID).
 
 ```
 https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png
@@ -97,7 +93,7 @@ This app will be composed of two screens. The list screen and the details screen
   - You do not need to display the progress bar while downloading the Pokemon images, just while you retrieve the list.
 
 #### For the details
-* You must display the Pokemon's image to take up the entire screen. They are PNGs so there will be whitespace around them, but they should be allowed to fill the entire screenl
+* You must display the Pokemon's image to take up the entire screen.
 * You must display the Pokemon's name, attack, defense, sp. attack, sp. defense, speed and HP as shown in the sample screenshot.
 
 Some Tips
