@@ -18,7 +18,6 @@ sealed class PokemonListState {
 
 class ListController : Controller() {
 
-  private lateinit var swipeRefreshLayout: SwipeRefreshLayout
   private var disposables = CompositeDisposable()
 
   override fun onCreateView(
