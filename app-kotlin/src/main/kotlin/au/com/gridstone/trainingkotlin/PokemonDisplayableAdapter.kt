@@ -15,7 +15,7 @@ import com.jakewharton.rxbinding3.view.clicks
 class PokemonDisplayableAdapter :
     RecyclerView.Adapter<PokemonDisplayableAdapter.PokemonDisplayableViewHolder>() {
 
-  private var tapRelay: PublishRelay<ListViewEvent.Selection> = PublishRelay.create()
+  private val tapRelay: PublishRelay<ListViewEvent.Selection> = PublishRelay.create()
   val selections: Observable<ListViewEvent.Selection> = tapRelay
 
   private lateinit var myDataSet: List<PokemonDisplayable>
