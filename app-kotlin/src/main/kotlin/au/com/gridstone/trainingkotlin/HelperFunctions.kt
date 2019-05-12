@@ -61,12 +61,12 @@ fun pokemonDetailsResultsToDetailState(): ObservableTransformer<PokemonDetailsRe
 
 fun pokemonListResultsToListState(): ObservableTransformer<PokemonListResult, PokemonListState> =
     ObservableTransformer { result ->
-      result.map { result ->
-        when (result) {
+      result.map { listResult ->
+        when (listResult) {
           is PokemonListResult.Loading -> PokemonListState.Loading
           is PokemonListResult.Content ->
-            PokemonListState.Content(generateDisplayables(result.list))
-          is PokemonListResult.Error -> PokemonListState.Error(result.message)
+            PokemonListState.Content(generateDisplayables(listResult.list))
+          is PokemonListResult.Error -> PokemonListState.Error(listResult.message)
         }
       }
     }

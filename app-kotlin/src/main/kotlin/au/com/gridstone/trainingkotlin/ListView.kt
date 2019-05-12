@@ -57,22 +57,22 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
 
     when (state) {
       is Loading -> {
-        progressBar?.isVisible = true
-        recyclerView?.isVisible = false
-        errorTextView?.isVisible = false
+        progressBar.isVisible = true
+        recyclerView.isVisible = false
+        errorTextView.isVisible = false
       }
       is Content -> {
         (recyclerView.adapter as PokemonDisplayableAdapter).set(state.list)
         recyclerView.adapter?.notifyDataSetChanged()
-        progressBar?.isVisible = false
-        recyclerView?.isVisible = true
-        errorTextView?.isVisible = false
+        progressBar.isVisible = false
+        recyclerView.isVisible = true
+        errorTextView.isVisible = false
       }
       is Error -> {
         errorTextView.text = state.message
-        progressBar?.isVisible = false
-        recyclerView?.isVisible = false
-        errorTextView?.isVisible = true
+        progressBar.isVisible = false
+        recyclerView.isVisible = false
+        errorTextView.isVisible = true
       }
     }
   }

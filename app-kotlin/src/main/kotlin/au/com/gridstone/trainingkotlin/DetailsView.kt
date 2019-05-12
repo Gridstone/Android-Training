@@ -2,7 +2,6 @@ package au.com.gridstone.trainingkotlin
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -30,7 +29,6 @@ class DetailsView(
   private val specialAttackValueTextView: TextView by bindView(R.id.specialAttackValueTextView)
   private val specialDefenseValueTextView: TextView by bindView(R.id.specialDefenseValueTextView)
   private val hpValueTextView: TextView by bindView(R.id.hpValueTextView)
-  private val detailTextOverlayView: View by bindView(R.id.detailTextOverlayView)
   private val imageView: ImageView by bindView(R.id.imageDetailsImageView)
 
   fun display(state: PokemonDetailsState) {
