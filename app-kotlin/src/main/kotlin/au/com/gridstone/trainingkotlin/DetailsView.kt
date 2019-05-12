@@ -16,8 +16,8 @@ import au.com.gridstone.trainingkotlin.PokemonDetailsState.Loading
 import com.squareup.picasso.Picasso
 
 class DetailsView(
-  context: Context,
-  attrs: AttributeSet
+    context: Context,
+    attrs: AttributeSet
 ) : FrameLayout(context, attrs) {
 
   private val progressBar: ProgressBar by bindView(R.id.details_progress_bar)
@@ -34,6 +34,22 @@ class DetailsView(
   private val imageView: ImageView by bindView(R.id.imageDetailsImageView)
 
   fun display(state: PokemonDetailsState) {
+
+    fun display(displayable: PokemonDetailsDisplayable) {
+      titleView.text = displayable.title
+      attackValueTextView.text = displayable.attackValue
+      defenceValueTextView.text = displayable.defenseValue
+      speedValueTextView.text = displayable.speedValue
+      specialAttackValueTextView.text = displayable.specialAttackValue
+      specialDefenseValueTextView.text = displayable.specialDefenseValue
+      hpValueTextView.text = displayable.hpValue
+      Picasso.get()
+          .load(displayable.imageURL)
+          .into(imageView)
+      progressBar.isVisible = false
+      detailsSection.isVisible = true
+    }
+
     when (state) {
       is Loading -> {
         progressBar.isVisible = true
@@ -54,19 +70,4 @@ class DetailsView(
       }
     }
   }
-
-  private fun display(displayable: PokemonDetailsDisplayable) {
-    titleView.text = displayable.title
-    attackValueTextView.text = displayable.attackValue
-    defenceValueTextView.text = displayable.defenseValue
-    speedValueTextView.text = displayable.speedValue
-    specialAttackValueTextView.text = displayable.specialAttackValue
-    specialDefenseValueTextView.text = displayable.specialDefenseValue
-    hpValueTextView.text = displayable.hpValue
-    Picasso.get()
-        .load(displayable.imageURL)
-        .into(imageView)
-    progressBar.isVisible = false
-    detailsSection.isVisible = true
-   }
 }
