@@ -1,7 +1,5 @@
 package au.com.gridstone.trainingkotlin
 
-import au.com.gridstone.trainingkotlin.PokemonListState.Content
-import au.com.gridstone.trainingkotlin.PokemonListState.Loading
 import com.google.gson.annotations.SerializedName
 import com.jakewharton.retrofit2.adapter.rxjava2.Result
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -10,7 +8,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Path
 import io.reactivex.Observable
-import io.reactivex.Observer
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
