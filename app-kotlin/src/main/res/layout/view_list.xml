@@ -27,7 +27,6 @@
         android:id="@+id/errorTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
         android:textColor="@android:color/white"
@@ -38,8 +37,6 @@
         android:id="@+id/listViewRetryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/errorTextView"
-        android:layout_below="@+id/errorTextView"
         android:text="Retry"
         android:textColor="#FFFFFF"
         />
