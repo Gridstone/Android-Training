@@ -2,6 +2,7 @@ package au.com.gridstone.trainingkotlin
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -14,6 +15,8 @@ import au.com.gridstone.trainingkotlin.PokemonListState.Content
 import au.com.gridstone.trainingkotlin.PokemonListState.Error
 import au.com.gridstone.trainingkotlin.PokemonListState.Loading
 import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
+import com.jakewharton.rxbinding3.view.clicks
+import com.jakewharton.rxbinding3.view.touches
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 
@@ -28,6 +31,7 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
   private val errorTextView: TextView by bindView(R.id.errorTextView)
   private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_refresh_layout)
   private val recyclerView: RecyclerView by bindView(R.id.my_recycler_view)
+  private val retryButton: Button by bindView(R.id.listViewRetryButton)
 
   private var eventsRelay: PublishRelay<ListViewEvent> = PublishRelay.create()
 
@@ -41,6 +45,9 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
     viewAdapter.selections.subscribe(eventsRelay)
 
     swipeRefreshLayout.refreshes().map { ListViewEvent.Refresh }.subscribe(eventsRelay)
+
+    retryButton.clicks().map { ListViewEvent.Refresh }.subscribe(eventsRelay)
+
 
     val viewManager = LinearLayoutManager(context)
 
@@ -60,6 +67,8 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         progressBar.isVisible = true
         recyclerView.isVisible = false
         errorTextView.isVisible = false
+        retryButton.isVisible = false
+        swipeRefreshLayout.isVisible = false
       }
       is Content -> {
         (recyclerView.adapter as PokemonDisplayableAdapter).set(state.list)
@@ -67,12 +76,16 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         progressBar.isVisible = false
         recyclerView.isVisible = true
         errorTextView.isVisible = false
+        retryButton.isVisible = false
+        swipeRefreshLayout.isVisible = true
       }
       is Error -> {
         errorTextView.text = state.message
         progressBar.isVisible = false
-        recyclerView.isVisible = false
+        swipeRefreshLayout.isVisible = false
         errorTextView.isVisible = true
+        retryButton.isVisible = true
+        swipeRefreshLayout.isVisible = false
       }
     }
   }

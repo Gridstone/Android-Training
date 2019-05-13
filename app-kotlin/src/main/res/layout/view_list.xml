@@ -5,35 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
   <ProgressBar
       android:id="@+id/list_progress_bar"
       android:layout_width="120dp"
       android:layout_height="120dp"
       android:layout_gravity="center"
+      android:visibility="gone"
       >
   </ProgressBar>
-  <TextView
-      android:id="@+id/errorTextView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:layout_marginStart="12dp"
-      android:layout_marginEnd="12dp"
-      android:textSize="18sp"
-      android:textColor="@android:color/white"
-      android:visibility="invisible"
-      />
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:gravity="center"
+      >
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        />
+
+    <Button
+        android:id="@+id/listViewRetryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/errorTextView"
+        android:layout_below="@+id/errorTextView"
+        android:text="Retry"
+        android:textColor="#FFFFFF"
+        />
+
+  </LinearLayout>
+
   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
       android:id="@+id/swipe_refresh_layout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       >
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:visibility="invisible"
         >
     </androidx.recyclerview.widget.RecyclerView>
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
