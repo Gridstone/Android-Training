@@ -31,7 +31,7 @@ You'll see that there are two app directories: `app` and `app-kotlin`. If you wi
 
 During your development, feel free to throw questions at any Android developer at Gridstone. They should be able to help you out, and don't bite often.
 
-When you've finished, give a Gridstone Android developer read access to your repository. You can find an example implementation in the branch titled `ch/implementation-kotlin`
+When you've finished, give a Gridstone Android developer read access to your repository. You can find an example implementation in the branch titled `ch/implementation-kotlin`. Note that this implementation uses a different API, but many aspects are still applicable (especially the RX components).
 
 Here are the states your app will need to display. Loading the list of Pokemon, displaying the list, and displaying Pokemon details.
 
