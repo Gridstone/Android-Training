@@ -2,10 +2,7 @@ package au.com.gridstone.trainingkotlin
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +29,7 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
   private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.swipe_refresh_layout)
   private val recyclerView: RecyclerView by bindView(R.id.my_recycler_view)
   private val retryButton: Button by bindView(R.id.listViewRetryButton)
+  private val errorStateView: LinearLayout by bindView(R.id.listViewErrorStateView)
 
   private var eventsRelay: PublishRelay<ListViewEvent> = PublishRelay.create()
 
@@ -66,8 +64,7 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
       is Loading -> {
         progressBar.isVisible = true
         recyclerView.isVisible = false
-        errorTextView.isVisible = false
-        retryButton.isVisible = false
+        errorStateView.isVisible = false
         swipeRefreshLayout.isVisible = false
       }
       is Content -> {
@@ -75,16 +72,14 @@ class ListView(context: Context, attrs: AttributeSet) : FrameLayout(context, att
         recyclerView.adapter?.notifyDataSetChanged()
         progressBar.isVisible = false
         recyclerView.isVisible = true
-        errorTextView.isVisible = false
-        retryButton.isVisible = false
+        errorStateView.isVisible = false
         swipeRefreshLayout.isVisible = true
       }
       is Error -> {
         errorTextView.text = state.message
         progressBar.isVisible = false
         swipeRefreshLayout.isVisible = false
-        errorTextView.isVisible = true
-        retryButton.isVisible = true
+        errorStateView.isVisible = true
         swipeRefreshLayout.isVisible = false
       }
     }
