@@ -31,9 +31,9 @@ You'll see that there are two app directories: `app` and `app-kotlin`. If you wi
 
 During your development, feel free to throw questions at any Android developer at Gridstone. They should be able to help you out, and don't bite often.
 
-When you've finished, give a Gridstone Android developer read access to your repository. You can also ask [@chris-horner](https://github.com/chris-horner) for access to his implementation.
+When you've finished, give a Gridstone Android developer read access to your repository. You can find an example implementation in the branch titled `ch/implementation-kotlin`
 
-Here are the states your app will need to display. Loading the list, displaying the list, and displaying item details.
+Here are the states your app will need to display. Loading the list of Pokemon, displaying the list, and displaying Pokemon details.
 
 <img src="images/loading.png" width="280"/>
 <img src="images/list.png" width="280"/>
@@ -56,44 +56,45 @@ At Gridstone, we make use of [Square's code styles](https://github.com/square/ja
 
 ### The Data
 
-To get the list of images, you'll need to make a network request to Imgur's API. Specifically, you'll be calling:
+To get the list of Pokemon, you'll need to make a network request to PokeAPI's endpoint. Specifically, you'll be calling:
 ```
-https://api.imgur.com/3/gallery/
+https://pokeapi.co/api/v2/pokemon?limit=151
 ```
-You will also need to insert a client ID for authorization in the header of your network request. To save you time, you can simply ensure you are appending this header name-value:
+This will give you a list of the first 151 Pokemon in the pokedex, which is all we need for this training. Note that this does not give you the details for each of those Pokemon (e.g. stats), only their `name` and a `url` that fetches their details.
+
+The responses you get from PokeAPI will be in JSON, which is perfect. The structure of these response objects is described [here in the PokeAPI's documentation](https://pokeapi.co/docs/v2.html#pokemon). The list response is simple, as described above. However, there are quite a few fields when fetching details, but for the purposes of this demo we can focus on just a few. Specifically:
 ```
-"Authorization" "Client-ID 3436c108ccc17d3"
+id
+name
+stats
 ```
 
-As per [the documentation on this call](https://api.imgur.com/endpoints/gallery#gallery), there are a few parameters that you can use to tweak what kind of gallery is delivered back to you. In the interest of keeping things simple for this app however, we'll stick to the defaults.
+If you would rather experiment with the API hands-on rather than read documentation, [Postman](https://www.getpostman.com/) is a useful tool for this.
 
-The response you get from Imgur will be in JSON, which is perfect. The structure of each Image object is described [here in Imgur's API documentation](https://api.imgur.com/models/image). There are quite a few fields here, but for the purposes of this demo we can focus on just a few. Specifically:
+### Images
+
+The PokeAPI endpoint returns links to thumbnails, but these are relatively small. Instead, we will get images from the Pokemon Official Pokedex website. The link below will return a high resolution image if the ID at the end (in this case, `001`) is valid. (Note that whilst the list endpoint does not return the ID of the individual Pokemon, we can assume that their index in the list, plus one, is their ID).
+
 ```
-title
-datetime
-width
-height
-views
-link
-is_album
+https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png
 ```
-This API does have one shortcoming for our simple training app: Albums are returned alongside regular images, and there is no mechanism in the REST API to filter those out. **This is something you must do yourself in your app.**
 
 ### The User Interface
 
 This app will be composed of two screens. The list screen and the details screen.
 
 #### For the list
-* In the list screen, each image must be `200dp` tall, and as wide as the screen.
+* The 151 Pokemon should be displayed in the list as per the UI guidelines below.
+* Each image must be `200dp` tall, and as wide as the screen.
 * There must be a gap of `1dp` between each image.
 * Each image should be centre-cropped, meaning that within the bounds of `width * height`, the image cannot be stretched or show any blank areas.
-* The title of the image must be displayed on top of each image (as shown in the screenshot above)
-* While the list of images is downloading, you must display an indeterminate [`ProgressBar`](https://developer.android.com/reference/android/widget/ProgressBar.html).
-  - You do not need to display the progress bar while the images themselves download (as that's a lot of images), just while you retrieve the list.
+* The Pokemon's name must be displayed on top of each image (as shown in the screenshot above)
+* While the list of Pokemon is downloading, you must display an indeterminate [`ProgressBar`](https://developer.android.com/reference/android/widget/ProgressBar.html).
+  - You do not need to display the progress bar while downloading the Pokemon images, just while you retrieve the list.
 
 #### For the details
-* You must display the image to take up the entire screen
-* You must display the title, time ago, width, height, and view count as shown in the sample screenshot.
+* You must display the Pokemon's image to take up the entire screen.
+* You must display the Pokemon's name, attack, defense, sp. attack, sp. defense, speed and HP as shown in the sample screenshot.
 
 Some Tips
 ---------
